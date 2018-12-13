@@ -1,12 +1,14 @@
 let initialState = {
-  currentUser: {},
+  currentUser: JSON.parse(localStorage.getItem('currentUser')) || {},
   selectedUser: {},
-  jwt: ""
+  jwt: localStorage.getItem('jwt') || ""
 }
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_USER:
+      localStorage.setItem('currentUser', JSON.stringify(action.payload.user))
+      localStorage.setItem('jwt', action.payload.jwt)
       return {...state, currentUser: action.payload.user, jwt: action.payload.jwt}
     case SET_SELECTED_USER:
       return {...state, selectedUser: action.payload}
