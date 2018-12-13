@@ -9,7 +9,7 @@ const Header = (props) => {
     <nav>
       <NavLink to="/">repop </NavLink>
       <NavLink to="/">Search </NavLink>
-      {props.user.username ? <><NavLink to="/">Profile </NavLink> <NavLink to="/" onClick={() => props.logout()}>Logout  </NavLink></> : <NavLink to="/login">Log In </NavLink>}
+      {props.user.username ? <><NavLink to={`/user/${props.user.id}`}>Profile </NavLink> <NavLink to="/" onClick={() => props.logout()}>Logout  </NavLink></> : <NavLink to="/login">Log In </NavLink>}
     </nav>
   )
 }

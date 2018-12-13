@@ -13,6 +13,8 @@ const userReducer = (state = initialState, action) => {
     case SET_SELECTED_USER:
       return {...state, selectedUser: action.payload}
       case LOGOUT:
+        delete localStorage.currentUser
+        delete localStorage.jwt
         return {...state, currentUser: {}}
     default:
      return state

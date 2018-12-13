@@ -30,3 +30,8 @@
     transform: rotate(360deg);
   }
 }
+
+.itemcard img {
+  width: 100px;
+  height: 100px;
+}
