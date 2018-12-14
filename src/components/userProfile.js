@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import userimg from '../images/user.jpg'
 import { API_URL } from '../APIEndpoint.js'
 import ItemCardContainer from './itemCardContainer.js'
+import NewItemForm from './newItemForm.js'
 
 
 
@@ -11,7 +12,8 @@ class UserProfile extends Component {
   state = {
     self: this.props.match.params.user_id == this.props.currentUser.id,
     user: {},
-    items: []
+    items: [],
+    newItem: false
   }
 
   componentDidMount() {
@@ -25,7 +27,6 @@ class UserProfile extends Component {
         fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
         .then(res => res.json())
         .then(user => {
-          debugger
           this.setState({user: user.selectedUser, self: user.selectedUser.id == this.props.currentUser.id})})
     }
   }
@@ -42,6 +43,8 @@ class UserProfile extends Component {
     })
   }
 
+  toggleNewItem = () => this.setState({newItem: !this.state.newItem})
+
   isFollowing = () => this.props.currentUser.following.find(f => f.id == this.state.user.id) ? <p onClick={this.toggleFollow}>Following</p> : <p onClick={this.toggleFollow}>Follow</p>
 
   render() {
@@ -49,6 +52,8 @@ class UserProfile extends Component {
       <>
         <img src={userimg} alt="profile"/>
         <p>@{this.state.user.username}</p>
+        {this.state.self ? <p onClick={this.toggleNewItem}>{ this.state.newItem ? "Close Form" : "List a new item"}</p> : null}
+        {this.state.newItem ? <NewItemForm/> : null}
         {this.props.currentUser.id && !this.state.self ? this.isFollowing() : null}
         {this.state.items[0] ? <ItemCardContainer items={this.state.items}/>: null}
       </>)
