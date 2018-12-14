@@ -6,11 +6,9 @@ import { API_URL } from '../APIEndpoint.js'
 class selectedItemDisplay extends Component {
 
   componentDidMount() {
-    debugger
     fetch(`${API_URL}/items/${this.props.match.params.item_id}`)
     .then(res => res.json())
     .then(item => {
-      debugger
       this.props.selectItem(item.item)
     })
   }
@@ -35,14 +33,13 @@ class selectedItemDisplay extends Component {
   }
 
   toggleLike = () => {
-    debugger
     fetch(`${API_URL}/likes/toggle`, {
         method: "POST",
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
         body: JSON.stringify({id: this.props.selectedItem.id})})
     .then(res => 1)
     .then(like => {
-      debugger
+      let id = this.props.currentUser.id
       this.props.toggleLike(this.props.currentUser.id)
     })
   }

@@ -24,13 +24,13 @@ class UserProfile extends Component {
     if (prevProps.location.pathname !== this.props.location.pathname) {
         fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
         .then(res => res.json())
-        .then(user => this.setState({user: user.selectedUser}))
+        .then(user => {
+          debugger
+          this.setState({user: user.selectedUser, self: user.selectedUser.id == this.props.currentUser.id})})
     }
   }
 
   toggleFollow = () => {
-    let a = this.props.currentUser
-    let b = this.state.user
     fetch(`${API_URL}/relationships/toggle`, {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},

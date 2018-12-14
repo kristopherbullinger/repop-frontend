@@ -14,9 +14,8 @@ const itemReducer = (state = initialState, action) => {
     case SELECT_ITEM:
       return  {...state, selectedItem: action.payload}
     case TOGGLE_LIKE:
-      let newlikes = state.selectedItem.likes.find(l => l.user_id == action.payload) ? state.selectedItem.likes.filter(l => l.user_id != action.payload) : [...state.selectedItem.likes, {id: action.payload}]
+      let newlikes = state.selectedItem.likes.find(l => l.user_id == action.payload) ? state.selectedItem.likes.filter(l => l.user_id != action.payload) : [...state.selectedItem.likes, {user_id: action.payload}]
       let updatedSelectedItem = {...state.selectedItem, likes: newlikes}
-      debugger
       return {...state, selectedItem: updatedSelectedItem}
     default:
       return state
