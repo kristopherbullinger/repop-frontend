@@ -17,10 +17,7 @@ class UserProfile extends Component {
   componentDidMount() {
       fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
       .then(res => res.json())
-      .then(res => {
-        debugger
-        this.setState({user: res.selectedUser, items: res.items})
-      })
+      .then(res => this.setState({user: res.selectedUser, items: res.items}))
   }
 
   componentDidUpdate(prevProps) {
@@ -32,10 +29,16 @@ class UserProfile extends Component {
   }
 
   toggleFollow = () => {
+    let a = this.props.currentUser
+    let b = this.state.user
     fetch(`${API_URL}/relationships/toggle`, {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
       body: JSON.stringify({id: this.state.user.id})
+    })
+    .then(res => 1)
+    .then(res => {
+      this.props.toggleFollow(this.state.user.id)
     })
   }
 
@@ -47,7 +50,7 @@ class UserProfile extends Component {
         <img src={userimg} alt="profile"/>
         <p>@{this.state.user.username}</p>
         {this.props.currentUser.id && !this.state.self ? this.isFollowing() : null}
-        {this.state.user.items ? <ItemCardContainer items={this.state.items}/>: null}
+        {this.state.items[0] ? <ItemCardContainer items={this.state.items}/>: null}
       </>)
   }
 }
@@ -59,4 +62,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(UserProfile)
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleFollow: id => dispatch({type: "TOGGLE_FOLLOW", payload: id})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

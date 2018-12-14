@@ -13,10 +13,17 @@ const itemReducer = (state = initialState, action) => {
       return {...state, similarItems: {...action.payload}}
     case SELECT_ITEM:
       return  {...state, selectedItem: action.payload}
+    case TOGGLE_LIKE:
+      let newlikes = state.selectedItem.likes.find(l => l.user_id == action.payload) ? state.selectedItem.likes.filter(l => l.user_id != action.payload) : [...state.selectedItem.likes, {id: action.payload}]
+      let updatedSelectedItem = {...state.selectedItem, likes: newlikes}
+      debugger
+      return {...state, selectedItem: updatedSelectedItem}
     default:
       return state
   }
 }
+
+const TOGGLE_LIKE = "TOGGLE_LIKE"
 const GET_HOT_ITEMS = "GET_HOT_ITEMS"
 const GET_SIMILAR_ITEMS = "GET_SIMILAR_ITEMS"
 const SELECT_ITEM = "SELECT_ITEM"
