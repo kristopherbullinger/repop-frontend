@@ -24,7 +24,6 @@ class NewItemForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     if (this.state.image === "") {return window.alert("You must include an image!")}
-
     let { description, size, price, brand } = this.state
     fetch(`${API_URL}/items`, {
       method: "POST",
@@ -45,24 +44,41 @@ class NewItemForm extends Component {
       let xhr = new XMLHttpRequest()
       xhr.open("POST", uploadurl, true)
       xhr.send(formdata)
+      window.alert("Sending to the cloud....")
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          window.alert("All good")
+        } else {
+          window.alert("there was some kind of error. try again")
+          fetch(`${API_URL}/items`, {
+            method: "DELETE",
+            headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
+            body: JSON.stringify({id: item.id})
+          })
+        }
+      }
     })
   }
 
-  onImageDrop = () => {
-    console.log("dropped")
+  onImageDrop = (files) => {
+    let file = files[0]
+    let fr = new FileReader()
+    let newItemFile = document.querySelector("#new-item-file")
+    let preview = document.querySelector("#new-item")
+    fr.addEventListener("load", () => preview.src = fr.result)
+    fr.readAsDataURL(file)
+    this.setState({image: file})
   }
 
-  onFileChange = (e) => {
-    this.setState({image: e.target.files[0]})
-    console.log(e.target.files[0])
-  }
+  onFileChange = (e) => this.onImageDrop(e.target.files)
 
   render () {
     return (<>
       <form onSubmit={this.handleSubmit}>
-        <Dropzone multiple={false} accept="image/*" onDrop={this.onImageDrop}>
-        {({getRootProps, getInputProps, isDragActive}) => <div className="dropzone" {...getRootProps()}>Upload an image for your new item<input {...getInputProps()} onChange={this.onFileChange}/></div>}
-        </Dropzone>
+        <img id="new-item" style={{width:'350px', height:'350px', display: this.state.image ? 'block' : 'none'}} src="" alt="newitemupload"/>
+        {!this.state.image ? <Dropzone multiple={false} accept="image/*" onDrop={this.onImageDrop} >
+        {({getRootProps, getInputProps, isDragActive}) => <div className="dropzone" {...getRootProps()} >Add an Image (Click here or drop one off)<input {...getInputProps()} id="new-item-file" onChange={this.onFileChange}/></div>}
+        </Dropzone> : null }
         <label>Description</label>
         <input name="description" type="text" value={this.state.description} onChange={this.handleChange}/> <br/>
         <label>Price</label>

@@ -8,7 +8,7 @@ class MainPage extends Component {
   render () {
     return(
       <div>
-      <h2>repop</h2>
+      <h2 className="logo">repop</h2>
       <ItemCardContainer items={this.props.items}/>
       </div>
     )

@@ -39,14 +39,14 @@ class LoginForm extends Component {
   render() {
     const { redirect } = this.state
     return (redirect ? <Redirect to="/"/> : <div id="login">
-            <form id="signin" action="index.html" method="post" onSubmit={this.handleSubmit}>
+            <form id="signin" className="login-signin" action="index.html" method="post" onSubmit={this.handleSubmit}>
               <label>Username</label>
-              <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
+              <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/><br/>
               <label>Password</label>
-              <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-              <input type="submit" name="submit" value="Sign In"/>
+              <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/><br/>
+              <input type="submit" className="button" name="submit" value="Sign In"/><br/><br/>
+              <NavLink to="/signup">Are you new here?</NavLink>
             </form>
-            <NavLink to="/signup">Are you new here?</NavLink>
           </div>)
   }
 }

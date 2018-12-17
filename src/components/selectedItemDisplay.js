@@ -45,11 +45,12 @@ class selectedItemDisplay extends Component {
   }
 
   render() {
+    const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
     return (
       <>
         <div className="displayItem">
           <p>SelectedItem</p>
-          <img src={this.props.selectedItem} alt="selected item image"/>
+          {this.props.selectedItem.user ? <img id="selected-item" src={`${baseurl}/user${this.props.selectedItem.user.id}item${this.props.selectedItem.id}.jpg`} alt="selected item image"/> : null}
           {this.props.selectedItem.user ? <NavLink to={`/user/${this.props.selectedItem.user.id}`}><p>@{this.props.selectedItem.user.username}</p></NavLink> : null}
           <p>Description: {this.props.selectedItem.description}</p>
           <p>Size: {this.props.selectedItem.size}</p>

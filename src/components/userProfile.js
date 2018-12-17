@@ -19,7 +19,7 @@ class UserProfile extends Component {
   componentDidMount() {
       fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
       .then(res => res.json())
-      .then(res => this.setState({user: res.selectedUser, items: res.items}))
+      .then(res => this.setState({user: res.selectedUser, items: res.items}, () => console.log(this.state.items[0])))
   }
 
   componentDidUpdate(prevProps) {
@@ -53,7 +53,7 @@ class UserProfile extends Component {
         <img src={userimg} alt="profile"/>
         <p>@{this.state.user.username}</p>
         {this.state.self ? <p onClick={this.toggleNewItem}>{ this.state.newItem ? "Close Form" : "List a new item"}</p> : null}
-        {this.state.newItem ? <NewItemForm/> : null}
+        {this.state.newItem ? <NewItemForm addNewItem={this.addNewItem}/> : null}
         {this.props.currentUser.id && !this.state.self ? this.isFollowing() : null}
         {this.state.items[0] ? <ItemCardContainer items={this.state.items}/>: null}
       </>)
