@@ -12,6 +12,8 @@ const userReducer = (state = initialState, action) => {
       return {...state, currentUser: action.payload.user, jwt: action.payload.jwt}
     case SET_SELECTED_USER:
       return {...state, selectedUser: action.payload}
+    case UPDATE_CURRENT_USER:
+      return {...state, currentUser: action.payload}
     case TOGGLE_FOLLOW:
       let newfollowers = state.currentUser.following.find(f => f.id == action.payload) ? state.currentUser.following.filter(f => f.id != action.payload) : [...state.currentUser.following, {id: action.payload}]
       let updatedUser = {...state.currentUser, following: newfollowers}
@@ -19,7 +21,7 @@ const userReducer = (state = initialState, action) => {
     case LOGOUT:
       delete localStorage.currentUser
       delete localStorage.jwt
-      return {...state, currentUser: {}}
+      return {...state, currentUser: {}, jwt: ""}
     default:
      return state
   }
@@ -27,6 +29,7 @@ const userReducer = (state = initialState, action) => {
 
 
 const SET_CURRENT_USER = "SET_CURRENT_USER"
+const UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER"
 const SET_SELECTED_USER = "SET_SELECTED_USER"
 const LOGOUT = "LOGOUT"
 const TOGGLE_FOLLOW = "TOGGLE_FOLLOW"

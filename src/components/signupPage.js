@@ -19,6 +19,8 @@ class SignupForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
+    let s = this.state
+    debugger
     if (!this.state.image) {return window.alert("Show the world your beautiful face! (Please add an image)")}
     let { username, password, password_confirmation, location, email } = this.state
     fetch(`${API_URL}/users`,{
@@ -26,21 +28,92 @@ class SignupForm extends Component {
       headers: {"Content-Type": 'application/json'},
       body: JSON.stringify({user: {username, password, password_confirmation, location, email}})
     })
-    .then(r => r.json())
+    .then(r => {
+      debugger
+      if (r.status === 200) {return r.json()}
+      else {r.errors.forEach(m => window.alert(m))}
+    })
     .then(resp => {
-      if (resp.jwt) {
-        let jwt = resp.jwt
-        let user = resp.user
-        let action = {type: "SET_CURRENT_USER", payload: {
-          user, jwt
-        }}
-        this.props.logIn(action)
-        this.setState({redirect: true})
-      } else {
-        resp.errors.forEach(m => window.alert(m))
+      let jwt = resp.jwt
+      let user = resp.user
+      let action = {type: "SET_CURRENT_USER", payload: {user, jwt}}
+
+      //host image
+      let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
+      let uploadpreset = "oyejxmyi"
+      let formdata = new FormData()
+      formdata.append('file', this.state.image)
+      formdata.append("upload_preset", uploadpreset)
+      formdata.append("public_id", `user${user.id}`)
+      let xhr = new XMLHttpRequest()
+      xhr.open("POST", uploadurl, true)
+      xhr.send(formdata)
+      window.alert("Sending to the cloud....")
+
+      //if error uploading, cancel user creation and inform user. if successful, create session
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          window.alert("All good")
+          this.props.logIn(action)
+          this.setState({redirect: true})
+        } else {
+          window.alert("there was some kind of error. try again")
+          fetch(`${API_URL}/users`, {
+            method: "DELETE",
+            headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
+            body: JSON.stringify({id: user.id})
+          })
+        }
       }
     })
+
+      // r.json()})
+    // .then(resp => {
+    //   if (resp.jwt) {
+    //     this.props.logIn(action)
+    //     this.setState({redirect: true})
+    //   } else {
+    //     resp.errors.forEach(m => window.alert(m))
+    //   }
+    // })
+  //
+  //   let { item } = response
+  //   let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
+  //   let uploadpreset = "oyejxmyi"
+  //   let formdata = new FormData()
+  //   formdata.append('file', this.state.image)
+  //   formdata.append("upload_preset", uploadpreset)
+  //   formdata.append("public_id", `user${this.props.currentUser.id}item${item.id}`)
+  //   let xhr = new XMLHttpRequest()
+  //   xhr.open("POST", uploadurl, true)
+  //   xhr.send(formdata)
+  //   window.alert("Sending to the cloud....")
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) {
+  //       window.alert("All good")
+  //     } else {
+  //       window.alert("there was some kind of error. try again")
+  //       fetch(`${API_URL}/items`, {
+  //         method: "DELETE",
+  //         headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
+  //         body: JSON.stringify({id: item.id})
+  //       })
+  //     }
+  //   }
+  // })
   }
+
+  onImageDrop = (files) => {
+    let file = files[0]
+    let fr = new FileReader()
+    let newItemFile = document.querySelector("#new-item-file")
+    let preview = document.querySelector("#new-item")
+    fr.addEventListener("load", () => preview.src = fr.result)
+    fr.readAsDataURL(file)
+    this.setState({image: file})
+  }
+
+  onFileChange = (e) => this.onImageDrop(e.target.files)
 
 
   render() {
@@ -51,15 +124,15 @@ class SignupForm extends Component {
             {({getRootProps, getInputProps, isDragActive}) => <div className="dropzone" {...getRootProps()} >Add an Image (Click here or drop one off)<input {...getInputProps()} id="new-item-file" onChange={this.onFileChange}/></div>}
             </Dropzone> : null }
             <form id="signup" className="login-signin" method="post" onSubmit={this.handleSubmit}>
-                <label for="username" >Username</label>
+                <label>Username</label>
                 <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/><br/>
-                <label for="email" >Email</label>
+                <label>Email</label>
                 <input type="text" name="email" value={this.state.email} onChange={this.handleChange}/><br/>
-                <label for="location" >Location</label>
+                <label>Location</label>
                 <input type="text" name="location" value={this.state.location} onChange={this.handleChange}/><br/>
-                <label for="password">Password</label>
+                <label>Password</label>
                 <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/><br/>
-                <label for="password_confirmation">Password Confirmation</label>
+                <label>Password Confirmation</label>
                 <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange}/><br/>
               <input type="submit" className="button" name="submit" value="Sign Up"/>
             </form>

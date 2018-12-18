@@ -7,7 +7,7 @@ const ItemCardContainer = props => {
 
   return (
     <div className="cardcontainer">
-    {renderCards()}
+    {props.items[0] ? renderCards() : <p>There seems to be nothing here...</p>}
     </div>
   )
 }

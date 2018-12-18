@@ -2,35 +2,6 @@
   text-align: center;
 }
 
-/* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
 #root {
   font-family: 'Roboto Mono', monospace;
   margin-left: 2%;
@@ -61,7 +32,13 @@
   margin-left: 30%;
   width: 40%;
 }
+
 #login label {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+#login img {
   margin-right: 8px;
   margin-bottom: 8px;
 }
@@ -72,6 +49,24 @@
 
 .button:hover {
   box-shadow: 1px 1px 3px black;
+}
+
+.button.large.green {
+  width: 350px;
+  height: 4em;
+  font-size: 1em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #b4ddaa;
+}
+
+.button.small.green {
+  width: 200px;
+  height: 1.666em;
+  font-size: 0.666em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #b4ddaa;
 }
 
 .itemcard {
@@ -97,7 +92,7 @@
 .dropzone {
   width: 350px;
   height: 350px;
-  background-color: grey;
+  background-color: #e3e7ed;
   justify-content: center;
   text-align: center;
   line-height: 350px;
@@ -108,11 +103,23 @@
 #selected-item {
   width: 750px;
   height: 750px;
+  margin-right: 20px;
+}
+
+#selected-item.blurry {
+  width: 750px;
+  height: 750px;
+  margin-right: 20px;
+  filter: blur(15px);
+  -webkit-filter: blur(15px);
 }
 
 .cardcontainer {
+  margin-left: 8%;
+  margin-right: 8%;
+  width: 84%;
   display: flex;
-  flex-wrap: row wrap;
+  flex-flow: row wrap;
 }
 
 a {
@@ -122,6 +129,135 @@ a {
 a:hover {
   text-decoration: underline;
   color: black;
+}
+
+.userInfoContainer {
+  display: flex;
+}
+
+.userInfoContainer span{
+  float: left;
+}
+
+.userProfilePhoto {
+  display: inline;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.userDetails {
+  justify-content: flex-start;
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+
+#editSwitch {
+  font-size: 0.333em;
+  color: #888888;
+}
+
+#editSwitch:hover {
+  font-size: 0.333em;
+  color: #555555;
+  text-decoration: underline;
+}
+
+.username {
+  font-size: 2em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.username div textarea {
+  width: 500px;
+}
+
+.username p {
+  font-size: 0.5em;
+  font-weight: normal;
+  max-width: 75%;
+  max-height: 80px;
+  overflow-y: scroll;
+}
+
+.followers {
+  font-size: 0.555em;
+  font-weight: normal;
+  margin-right: 20px;
+}
+
+.itemDetails {
+  margin-left: 12px;
+}
+
+.itemDetails span {
+  display: block;
+  margin-left: 20px;
+}
+
+.itemDetails p {
+  margin: 0px;
+}
+
+.itemContainerHeader {
+  margin-left: 8%;
+  margin-bottom: 8px;
+}
+
+.displayItem div {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.likeButton {
+  width: 45px;
+  height: 45px;
+}
+
+.newItemToggle {
+  margin-bottom: 20px;
+}
+
+.newItemForm {
+  margin-left: 10%;
+  width: 60%;
+}
+
+.newItemForm li {
+  display: inline-block;
+  width: 50%;
+}
+
+.newItemForm input {
+  margin-bottom: 5px;
+}
+
+.newItemForm label {
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.showItemToggle {
+  margin-left: 20px;
+}
+
+.hoverLinkStyle:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 /* .dropzone p {
