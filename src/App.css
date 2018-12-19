@@ -206,6 +206,7 @@ a:hover {
   font-size: 2em;
   font-weight: bold;
   width: 100%;
+  margin-top: 20px;
 }
 
 .username div textarea {

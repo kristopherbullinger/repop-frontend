@@ -16,7 +16,8 @@ class UserProfile extends Component {
     likedItems: [],
     newItem: false,
     edit: false,
-    showSelling: true
+    showSelling: true,
+    showFollows: false
   }
 
   componentDidMount() {
@@ -63,7 +64,6 @@ class UserProfile extends Component {
 
   publishEdit = () => {
     let newbio = document.querySelector("#update-bio").value
-    debugger
     fetch(`${API_URL}/users/${this.props.currentUser.id}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
