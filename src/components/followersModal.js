@@ -3,22 +3,29 @@ import FollowCard from './followCard.js'
 import { connect } from 'react-redux'
 
 
-
-
 class FollowersModal extends Component {
 
   state = {
     switch: false
   }
 
-  renderFollowCards = users => users.map(user => <FollowCard user={user}/>)
+  renderFollowCards = users => users[0] ? users.map(user => <FollowCard user={user} toggleFollow={this.props.toggleFollow} key={user.id}/>) : <p>No users here yet...</p>
+
+  handleClick = bool => this.setState({switch: bool})
+
+  //userList={this.state.switch ? this.props.currentUser.followers : this.props.currentUser.following}
 
   render() {
     return (
-    <div className="modalContainer">
-      <div className="modalContent">
-        <p onClick={() => this.setState({switch: false})}>Followers</p><p onClick={() => this.setState({switch: true})}>Following</p>
-        {this.state.switch ? renderFollowCards(followers) : renderFollowCards(following)}
+    <div className="modalContainer" onClick={this.props.toggle}>
+      <div className="modalContent" onClick={e => e.stopPropagation()}>
+        <p onClick={() => this.handleClick(true)} className={"hoverLinkStyle" + (this.state.switch ? " selected" : "")}>Followers</p>
+        <p onClick={() => this.handleClick(false)} className={"hoverLinkStyle" + (!this.state.switch ? " selected" : "")}>Following</p>
+        <div className="userslist">
+          {this.state.switch ?
+            this.renderFollowCards(this.props.followers)
+            : this.renderFollowCards(this.props.following)}
+        </div>
       </div>
     </div>
     )

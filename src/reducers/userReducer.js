@@ -15,8 +15,10 @@ const userReducer = (state = initialState, action) => {
     case UPDATE_CURRENT_USER:
       return {...state, currentUser: action.payload}
     case TOGGLE_FOLLOW:
+      debugger
       let newfollowers = state.currentUser.following.find(f => f.id == action.payload) ? state.currentUser.following.filter(f => f.id != action.payload) : [...state.currentUser.following, {id: action.payload}]
       let updatedUser = {...state.currentUser, following: newfollowers}
+      debugger
       return {...state, currentUser: updatedUser}
     case LOGOUT:
       delete localStorage.currentUser

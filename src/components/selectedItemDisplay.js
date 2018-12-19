@@ -48,7 +48,6 @@ class selectedItemDisplay extends Component {
       else return window.alert("There was some type of problem. Try again.")
     })
     .then(like => {
-      let id = this.props.currentUser.id
       this.props.toggleLike(this.props.currentUser.id)
     })
   }
@@ -117,6 +116,7 @@ class selectedItemDisplay extends Component {
             </NavLink>
             : null}
           <span>Description: {this.props.selectedItem.description}</span><br/>
+          <span>Price: ${this.props.selectedItem.price}</span><br/>
           <span>Size: {this.props.selectedItem.size}</span>
           <span>Brand: {this.props.selectedItem.brand}</span>
           <div>
