@@ -12,6 +12,10 @@
   color: #cc1839;
 }
 
+nav {
+  margin-bottom: 20px;
+}
+
 #navbar-right {
   margin-top: 0px;
   margin-left: 500px;
@@ -70,9 +74,27 @@
 }
 
 .itemcard {
+  position: relative;
   width: 210px;
   margin-left: 20px;
   font-weight: bold;
+}
+
+.itemcard.sold {
+  position: relative;
+  width: 210px;
+  margin-left: 20px;
+  font-weight: bold;
+  opacity: 0.5;
+}
+
+.itemcard .centered {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  font-size: 3em;
+  color: yellow;
+  text-shadow: 1px 1px 1px black;
 }
 
 .itemcard img {
@@ -190,10 +212,6 @@ a:hover {
   margin-right: 20px;
 }
 
-.itemDetails {
-  margin-left: 12px;
-}
-
 .itemDetails span {
   display: block;
   margin-left: 20px;
@@ -201,6 +219,11 @@ a:hover {
 
 .itemDetails p {
   margin: 0px;
+}
+
+.itemDetails h2 {
+  margin: 0px 0px 20px;
+  display: inline-block;
 }
 
 .itemContainerHeader {
@@ -213,10 +236,15 @@ a:hover {
   margin-bottom: 15px;
 }
 
+#likes {
+  margin-left: 760px;
+  width: 8%;
+}
+/*
 .likeButton {
   width: 45px;
   height: 45px;
-}
+} */
 
 .newItemToggle {
   margin-bottom: 20px;
@@ -229,7 +257,8 @@ a:hover {
 
 .newItemForm li {
   display: inline-block;
-  width: 50%;
+  width: 350px;
+  margin-left: 2%;
 }
 
 .newItemForm input {
@@ -258,6 +287,10 @@ a:hover {
   content: "";
   clear: both;
   display: table;
+}
+
+.not-allowed:hover {
+  cursor: not-allowed;
 }
 
 /* .dropzone p {

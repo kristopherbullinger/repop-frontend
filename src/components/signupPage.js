@@ -66,41 +66,6 @@ class SignupForm extends Component {
         }
       }
     })
-
-      // r.json()})
-    // .then(resp => {
-    //   if (resp.jwt) {
-    //     this.props.logIn(action)
-    //     this.setState({redirect: true})
-    //   } else {
-    //     resp.errors.forEach(m => window.alert(m))
-    //   }
-    // })
-  //
-  //   let { item } = response
-  //   let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
-  //   let uploadpreset = "oyejxmyi"
-  //   let formdata = new FormData()
-  //   formdata.append('file', this.state.image)
-  //   formdata.append("upload_preset", uploadpreset)
-  //   formdata.append("public_id", `user${this.props.currentUser.id}item${item.id}`)
-  //   let xhr = new XMLHttpRequest()
-  //   xhr.open("POST", uploadurl, true)
-  //   xhr.send(formdata)
-  //   window.alert("Sending to the cloud....")
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) {
-  //       window.alert("All good")
-  //     } else {
-  //       window.alert("there was some kind of error. try again")
-  //       fetch(`${API_URL}/items`, {
-  //         method: "DELETE",
-  //         headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
-  //         body: JSON.stringify({id: item.id})
-  //       })
-  //     }
-  //   }
-  // })
   }
 
   onImageDrop = (files) => {
@@ -134,7 +99,7 @@ class SignupForm extends Component {
                 <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/><br/>
                 <label>Password Confirmation</label>
                 <input type="password" name="password_confirmation" value={this.state.password_confirmation} onChange={this.handleChange}/><br/>
-              <input type="submit" className="button" name="submit" value="Sign Up"/>
+              <input type="submit" className="button small green" name="submit" value="Sign Up"/>
             </form>
           </div>)
   }
