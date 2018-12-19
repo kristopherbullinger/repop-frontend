@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import ItemCardContainer from './itemCardContainer'
 import { withRouter } from 'react-router-dom'
+import loading from '../images/loading.gif'
 
 
 class MainPage extends Component {
@@ -9,7 +10,7 @@ class MainPage extends Component {
     return(
       <div>
       <h2 className="logo">repop</h2>
-      <ItemCardContainer items={this.props.items}/>
+      {this.props.items[0] ? <ItemCardContainer items={this.props.items}/> : <div id="loading"><img src={loading}/></div>}
       </div>
     )
   }

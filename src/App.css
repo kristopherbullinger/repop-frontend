@@ -12,6 +12,15 @@
   color: #cc1839;
 }
 
+#loading {
+  width: 20%;
+  height: auto;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 150px;
+  opacity: 0.25;
+}
+
 nav {
   margin-bottom: 20px;
 }
@@ -35,6 +44,11 @@ nav {
   margin-top: 10px;
   margin-left: 30%;
   width: 40%;
+}
+
+#signup div label {
+  display: inline-block;
+  width: 210px;
 }
 
 #login label {
@@ -240,11 +254,6 @@ a:hover {
   margin-left: 760px;
   width: 8%;
 }
-/*
-.likeButton {
-  width: 45px;
-  height: 45px;
-} */
 
 .newItemToggle {
   margin-bottom: 20px;

@@ -15,8 +15,8 @@ class App extends Component {
   componentDidMount() {
     fetch(`${API_URL}/items`)
     .then(res => res.json())
-    .then(items => {
-      this.props.setHotItems(items.items)
+    .then(res => {
+      this.props.setHotItems(res.items)
     })
   }
 

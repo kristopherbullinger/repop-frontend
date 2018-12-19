@@ -60,7 +60,7 @@ class selectedItemDisplay extends Component {
   }
 
   purchaseItem = () => {
-    if (!this.props.selectedItem.sold) {
+    if (!!this.props.selectedItem.purchase) {
       fetch(`${API_URL}/purchases`, {
         method: "POST",
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
@@ -77,7 +77,7 @@ class selectedItemDisplay extends Component {
 
   renderButton = () => {
     if (this.props.currentUser.id && this.props.selectedItem.id) {
-      if (this.props.selectedItem.sold) {
+      if (!!this.props.selectedItem.purchase) {
         return (<button className="large green button not-allowed">Sold</button>)
       } else if (this.props.selectedItem.user.id == this.props.currentUser.id) {
         return (<button className="button large green" onClick={this.deleteItem}>Remove Listing</button>)
@@ -86,18 +86,14 @@ class selectedItemDisplay extends Component {
   }
 
   renderLikes = () => {
-    //when there is an item, display likes. (whether there is user or not)
-    //if there is user and he likes the item: display w/ onClick toggle and red heart
-    //if there is user and does not like: display w/ onClick toggle and black heart
-    //if there is no user, display w/ red heart and no OnClick
     if (this.props.selectedItem.id) {
       if (this.props.currentUser.id) {
         let liked = !!this.props.selectedItem.likes.find(l => l.user_id == this.props.currentUser.id)
         return (<p onClick={this.toggleLike} id="likes" className="hoverLinkStyle">{liked ? "♥️" : "🖤" } {this.props.selectedItem.likes.length} Likes</p>)
       } else {
-        return (<p id="likes" className="hoverLinkStyle">♥️ {this.props.selectedItem.likes.length} Likes</p>)
+        return (<p id="likes">♥️ {this.props.selectedItem.likes.length} Likes</p>)
       }
-    } else {return null}
+    } else return null
   }
 
   render() {
@@ -117,7 +113,9 @@ class selectedItemDisplay extends Component {
           <span className="itemDetails" >
           {this.props.selectedItem.user ?
             <NavLink  to={`/user/${this.props.selectedItem.user.id}`}>
-            <h2>@{this.props.selectedItem.user.username}</h2></NavLink> : null}
+            <h2 className="hoverLinkStyle">@{this.props.selectedItem.user.username}</h2>
+            </NavLink>
+            : null}
           <span>Description: {this.props.selectedItem.description}</span><br/>
           <span>Size: {this.props.selectedItem.size}</span>
           <span>Brand: {this.props.selectedItem.brand}</span>
@@ -137,12 +135,6 @@ class selectedItemDisplay extends Component {
     )
   }
 }
-// old render button code
-// this.props.selectedItem.user && this.props.selectedItem.user.id == this.props.currentUser.id ? <button className="button large green" onClick={this.deleteItem}>Remove Listing</button> : <button className="button large green" onClick={this.purchaseItem}>Purchase Item</button>
-
-
-// old render likes code
-// {this.props.currentUser.id && this.props.selectedItem.id ? (this.props.selectedItem.likes.find(l => l.user_id == this.props.currentUser.id) ? <p onClick={this.toggleLike} className="hoverLinkStyle">♥️ {this.props.selectedItem.likes.length} Likes</p> : <p onClick={this.toggleLike} className="hoverLinkStyle">🖤 {this.props.selectedItem.likes.length} Likes</p>) : null}
 
 const mapStateToProps = state => {
   return {
