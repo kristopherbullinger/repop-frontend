@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import tshirtimg from '../images/tshirt.jpg'
 import errorImg from '../images/error.jpg'
 
 

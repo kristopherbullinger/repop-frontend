@@ -9,7 +9,7 @@ class FollowersModal extends Component {
     switch: false
   }
 
-  renderFollowCards = users => users[0] ? users.map(user => <FollowCard user={user} toggleFollow={this.props.toggleFollow} key={user.id}/>) : <p>No users here yet...</p>
+  renderFollowCards = users => users[0] ? users.map(user => <FollowCard user={user} toggleFollow={this.props.toggleFollow} key={user.id} followers={this.state.switch}/>) : <p>No users here yet...</p>
 
   handleClick = bool => this.setState({switch: bool})
 

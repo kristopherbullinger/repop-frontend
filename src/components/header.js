@@ -5,6 +5,7 @@ import { LOGOUT } from '../actions/userActions'
 
 
 const Header = (props) => {
+
   return (
     <nav>
       <NavLink to="/" className="logo">Hot Items</NavLink>

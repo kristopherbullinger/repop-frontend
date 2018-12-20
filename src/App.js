@@ -4,7 +4,7 @@ import Header from './components/header'
 import Login from './components/loginPage'
 import Signup from './components/signupPage'
 import UserProfile from './components/userProfile.js'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import MainContent from './components/mainContent'
 import { API_URL } from './APIEndpoint.js'
@@ -30,6 +30,7 @@ class App extends Component {
          <Route exact path="/" component={MainContent}/>
          <Route exact path="/user/:user_id" component={UserProfile}/>
          <Route exact path="/user/:user_id/item/:item_id" component={selectedItemDisplay}/>
+         <Redirect to="/"/>
        </Switch>
      </>
     );
@@ -38,7 +39,7 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setHotItems: items => dispatch({type: "GET_HOT_ITEMS", payload: items})
+    setHotItems: items => dispatch({type: "SET_HOT_ITEMS", payload: items})
   }
 }
 

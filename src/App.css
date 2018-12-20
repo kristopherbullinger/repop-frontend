@@ -85,20 +85,18 @@ nav {
   letter-spacing: 3px;
   padding: 0;
   background-color: #b4ddaa;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .itemcard {
   position: relative;
   width: 210px;
-  margin-left: 20px;
   font-weight: bold;
 }
 
 .itemcard.sold {
-  position: relative;
-  width: 210px;
-  margin-left: 20px;
-  font-weight: bold;
   opacity: 0.5;
 }
 
@@ -155,6 +153,7 @@ nav {
   margin-right: 8%;
   width: 84%;
   display: flex;
+  justify-content: space-between;
   flex-flow: row wrap;
 }
 
@@ -334,12 +333,7 @@ a:hover {
   display: inline-block;
 }
 
-.modalContent .selected {
+.selected {
   font-weight: bold;
   border-bottom: 1px solid black;
 }
-/*
-.modalContent > div {
-  height: 1em;
-  border-bottom: 1px solid black;
-} */

@@ -12,7 +12,6 @@ class UserProfile extends Component {
 
   state = {
     self: this.props.match.params.user_id == this.props.currentUser.id,
-    user: {},
     items: [],
     likedItems: [],
     newItem: false,
@@ -26,23 +25,28 @@ class UserProfile extends Component {
       .then(res => res.json())
       .then(res => {
         let { user, items, likedItems } = res
-        this.setState({user, items, likedItems})
+        this.props.setSelectedUser(user)
+        this.setState({items, likedItems})
       })
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
+        this.props.setSelectedUser({}) // prevent old user info from rendering upon navigating to different user page
+        let self = this.props.currentUser.id == this.props.match.params.user_id
+        this.setState({self, newItem: false, edit: false, showSelling: true, showFollows: false})
         fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
         .then(res => res.json())
         .then(res => {
           let { user, items, likedItems } = res
-          let self = user.id == this.props.match.params.user_id
-          this.setState({user, items, likedItems, self})
+          this.props.setSelectedUser(user)
+          this.setState({items, likedItems})
         })
     }
   }
 
   toggleFollow = (id) => {
+    console.log(this.props.currentUser)
     fetch(`${API_URL}/relationships/toggle`, {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
@@ -53,9 +57,16 @@ class UserProfile extends Component {
       else return window.alert("There was some kind of error. Please try again.")
     })
     .then(res => {
-      let { user } = res
-      if (id == this.state.user.id) this.setState({user})
-      this.props.toggleFollow(id)
+      let { currentUser, followedUser } = res
+
+       // always update current user to reflect new relationship
+      this.props.updateCurrentUser(currentUser)
+
+      //if i am the selected user, update the selected user with the current user to reflect the changes in both places.
+      if (this.props.currentUser.id === this.props.selectedUser.id) this.props.setSelectedUser(currentUser)
+
+      //if i have liked the selected user, update the selected user
+      if (followedUser.id === this.props.selectedUser.id) this.props.setSelectedUser(followedUser)
     })
   }
 
@@ -78,8 +89,8 @@ class UserProfile extends Component {
     })
     .then(resp => {
       let {user} = resp
-      this.props.updateUser(user)
-      this.setState({edit: false, user: user})
+      this.props.setSelectedUser(user)
+      this.setState({edit: false})
     })
   }
 
@@ -87,7 +98,7 @@ class UserProfile extends Component {
 
   showLikedItems = () => this.setState({showSelling: false})
 
-  renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.state.user.id) ? <button className="button small green" onClick={() => this.toggleFollow(this.state.user.id)}>Following</button> : <button className="button small green" onClick={() => this.toggleFollow(this.state.user.id)}>Follow</button>
+  renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.props.selectedUser.id) ? <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Following</button> : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
 
   render() {
     const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
@@ -95,20 +106,22 @@ class UserProfile extends Component {
       <>
         <div className="userInfoContainer clearfix">
           <span className="userDetails">
-            <img className="userProfilePhoto" src={this.state.user.id ? `${baseurl}user${this.state.user.id}` : defaultUserImg} alt="profile" onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
+            <img className="userProfilePhoto" src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg} alt="profile" onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
           </span>
-          <span className="username">@{this.state.user.username}
+          <span className="username">@{this.props.selectedUser.username}
             {this.state.self ?
               <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
               : null}
-            {this.state.user.followers ?
+            {this.props.selectedUser.followers ?
               <div className="clearfix">
-                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.state.user.followers.length} Followers</span>
-                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.state.user.following.length} Following</span>
+                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.props.selectedUser.followers.length} Followers</span>
+                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.props.selectedUser.following.length} Following</span>
               </div>
               : null}
             {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
-            {this.state.edit ? <div><textarea rows="6" columns="500" defaultValue={this.state.user.bio} id="update-bio"/><button onClick={this.publishEdit}>Publish</button></div> : <p>{this.state.user.bio}</p>}
+            {this.state.edit ?
+              <div><textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio} id="update-bio"/><button onClick={this.publishEdit}>Publish</button></div>
+              : <p>{this.props.selectedUser.bio}</p>}
           </span>
         </div>
 
@@ -125,8 +138,8 @@ class UserProfile extends Component {
         </div>
 
         {this.state.showFollows ?
-          <FollowersModal followers={this.state.user.followers}
-                          following={this.state.user.following}
+          <FollowersModal followers={this.props.selectedUser.followers}
+                          following={this.props.selectedUser.following}
                           toggle={this.toggleShowFollows}
                           toggleFollow={this.toggleFollow}/>
           : null}
@@ -146,8 +159,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleFollow: id => dispatch({type: "TOGGLE_FOLLOW", payload: id}),
-    updateUser: user => dispatch({type: "UPDATE_CURRENT_USER", payload: {user}})
+    toggleFollow: (id, username) => dispatch({type: "TOGGLE_FOLLOW", payload: id}),
+    updateCurrentUser: user => dispatch({type: "UPDATE_CURRENT_USER", payload: user}),
+    setSelectedUser: user => dispatch({type: "SET_SELECTED_USER", payload: user})
   }
 }
 
