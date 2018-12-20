@@ -6,7 +6,10 @@ import { connect } from 'react-redux'
 class FollowersModal extends Component {
 
   state = {
-    switch: false
+    switch: this.props.default
+  }
+  componentDidMount() {
+    console.log("mounting modal")
   }
 
   renderFollowCards = users => users[0] ? users.map(user => <FollowCard user={user} toggleFollow={this.props.toggleFollow} key={user.id} followers={this.state.switch}/>) : <p>No users here yet...</p>
@@ -17,7 +20,7 @@ class FollowersModal extends Component {
 
   render() {
     return (
-    <div className="modalContainer" onClick={this.props.toggle}>
+    <div className="modalContainer" onClick={() => this.props.toggle(true)}>
       <div className="modalContent" onClick={e => e.stopPropagation()}>
         <p onClick={() => this.handleClick(true)} className={"hoverLinkStyle" + (this.state.switch ? " selected" : "")}>Followers</p>
         <p onClick={() => this.handleClick(false)} className={"hoverLinkStyle" + (!this.state.switch ? " selected" : "")}>Following</p>

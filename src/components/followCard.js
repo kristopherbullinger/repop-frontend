@@ -19,8 +19,13 @@ const FollowCard = (props) => {
 
   return (
     <div className="follow-card">
-      <div><NavLink to={`/user/${user.id}`}>@{user.username}</NavLink></div>
-        {renderButton()}
+      <div>
+        <img src={``}/>
+      </div>
+      <div>
+        <NavLink to={`/user/${user.id}`}>@{user.username}</NavLink>
+      </div>
+      {renderButton()}
     </div>
   )
 }

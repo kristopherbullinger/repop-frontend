@@ -17,7 +17,8 @@ class UserProfile extends Component {
     newItem: false,
     edit: false,
     showSelling: true,
-    showFollows: false
+    //contains a switch for showing followersModal or not(switch), and a switch to determine whether followers or following appear first(default)
+    showFollows: {switch: false, default: true}
   }
 
   componentDidMount() {
@@ -34,7 +35,7 @@ class UserProfile extends Component {
     if (prevProps.location.pathname !== this.props.location.pathname) {
         this.props.setSelectedUser({}) // prevent old user info from rendering upon navigating to different user page
         let self = this.props.currentUser.id == this.props.match.params.user_id
-        this.setState({self, newItem: false, edit: false, showSelling: true, showFollows: false})
+        this.setState({self, newItem: false, edit: false, showSelling: true, showFollows: {switch: false, default: true}})
         fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
         .then(res => res.json())
         .then(res => {
@@ -74,7 +75,7 @@ class UserProfile extends Component {
 
   toggleEdit = () => this.setState({edit: !this.state.edit})
 
-  toggleShowFollows = () => this.setState({showFollows: !this.state.showFollows})
+  toggleShowFollows = (bool) => this.setState({showFollows: {switch: !this.state.showFollows.switch, default: bool}}, () => console.log(this.state.showFollows))
 
   publishEdit = () => {
     let newbio = document.querySelector("#update-bio").value
@@ -110,12 +111,14 @@ class UserProfile extends Component {
           </span>
           <span className="username">@{this.props.selectedUser.username}
             {this.state.self ?
-              <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
+              <div>
+                <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
+              </div>
               : null}
             {this.props.selectedUser.followers ?
               <div className="clearfix">
-                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.props.selectedUser.followers.length} Followers</span>
-                <span className="followers hoverLinkStyle" onClick={this.toggleShowFollows}>{this.props.selectedUser.following.length} Following</span>
+                <span className="followers hoverLinkStyle" onClick={() => this.toggleShowFollows(true)}>{this.props.selectedUser.followers.length} Followers</span>
+                <span className="followers hoverLinkStyle" onClick={() => this.toggleShowFollows(false)}>{this.props.selectedUser.following.length} Following</span>
               </div>
               : null}
             {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
@@ -130,18 +133,19 @@ class UserProfile extends Component {
           : null}
 
         <div className="clearfix itemContainerHeader">
-          <span className="showItemToggle hoverLinkStyle" onClick={this.showSelling}>Selling</span>
-          <span className="showItemToggle  hoverLinkStyle" onClick={this.showLikedItems}>Likes</span>
+          <span className={"showItemToggle hoverLinkStyle" + (this.state.showSelling ? " selected": "")} onClick={this.showSelling}>Selling</span>
+          <span className={"showItemToggle hoverLinkStyle" + (!this.state.showSelling ? " selected": "")} onClick={this.showLikedItems}>Likes</span>
           {this.state.self ?
-            <span onClick={this.toggleNewItem} className="newItemToggle showItemToggle  hoverLinkStyle">{ this.state.newItem ? "Close Form" : "List Something New"}</span>
+            <span onClick={this.toggleNewItem} className={"newItemToggle showItemToggle  hoverLinkStyle" + (this.state.newItem ? " selected": "")}>{ this.state.newItem ? "Close Form" : "List Something New"}</span>
             : null}
         </div>
 
-        {this.state.showFollows ?
+        {this.state.showFollows.switch ?
           <FollowersModal followers={this.props.selectedUser.followers}
                           following={this.props.selectedUser.following}
                           toggle={this.toggleShowFollows}
-                          toggleFollow={this.toggleFollow}/>
+                          toggleFollow={this.toggleFollow}
+                          default={this.state.showFollows.default}/>
           : null}
 
         {<ItemCardContainer items={this.state.showSelling ? this.state.items : this.state.likedItems}/>}

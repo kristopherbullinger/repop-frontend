@@ -8,7 +8,7 @@ const Header = (props) => {
 
   return (
     <nav>
-      <NavLink to="/" className="logo">Hot Items</NavLink>
+      <a href="/" className="logo">Hot Items</a>
       <span id="navbar-right">
       <NavLink to="/">Search</NavLink>
       {props.user.username ? <><NavLink to={`/user/${props.user.id}`}>Profile</NavLink> <NavLink to="/" onClick={() => props.logout()}>Logout  </NavLink></> : <NavLink to="/login">Log In</NavLink>}

@@ -22,7 +22,13 @@
 }
 
 nav {
-  margin-bottom: 20px;
+  margin-left: 2%;
+  position: fixed;
+  width: 98%;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 1;
 }
 
 #navbar-right {
@@ -193,11 +199,10 @@ a:hover {
 #editSwitch {
   font-size: 0.333em;
   color: #888888;
+  display: inline-block;
 }
 
 #editSwitch:hover {
-  font-size: 0.333em;
-  color: #555555;
   text-decoration: underline;
 }
 
@@ -287,10 +292,6 @@ a:hover {
   cursor: pointer;
 }
 
-.clearfix {
-  overflow: auto;
-}
-
 .clearfix::after {
   content: "";
   clear: both;
@@ -328,12 +329,21 @@ a:hover {
   padding-bottom: 5px;
 }
 
+.follow-card {
+  padding-left: 8px;
+}
+
 .follow-card div {
   width: 60%;
   display: inline-block;
 }
 
-.selected {
+.modalContent .selected {
   font-weight: bold;
   border-bottom: 1px solid black;
+}
+
+.selected {
+  font-weight: bold;
+  text-decoration: underline;
 }
