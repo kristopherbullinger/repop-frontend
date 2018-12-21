@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { API_URL } from '../APIEndpoint.js'
 import defaultItem from '../images/defaultItem.jpg'
+import PurchaseModal from './purchaseConfirmationModal.js'
 
 class selectedItemDisplay extends Component {
 
@@ -55,11 +56,11 @@ class selectedItemDisplay extends Component {
   deleteItem = () => {
     return null
     //send delete request to item endpoint
-    //delete image from cloudinary
+    //delete image from cloudinary??
   }
 
   purchaseItem = () => {
-    if (!!this.props.selectedItem.purchase) {
+    if (!this.props.selectedItem.purchase) {
       fetch(`${API_URL}/purchases`, {
         method: "POST",
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
@@ -80,7 +81,7 @@ class selectedItemDisplay extends Component {
         return (<button className="large green button not-allowed">Sold</button>)
       } else if (this.props.selectedItem.user.id == this.props.currentUser.id) {
         return (<button className="button large green" onClick={this.deleteItem}>Remove Listing</button>)
-      } else return (<button className="button large green" onClick={this.purchaseItem}>Purchase Item</button>)
+      } else return (<button className="button large green" onClick={this.toggleModal}>Purchase Item</button>)
     } else return null
   }
 
@@ -110,26 +111,31 @@ class selectedItemDisplay extends Component {
                 id="selected-item"/>}
           </span>
           <span className="itemDetails" >
-          {this.props.selectedItem.user ?
-            <NavLink  to={`/user/${this.props.selectedItem.user.id}`}>
-            <h2 className="hoverLinkStyle">@{this.props.selectedItem.user.username}</h2>
-            </NavLink>
-            : null}
-          <span>Description: {this.props.selectedItem.description}</span><br/>
-          <span>Price: ${this.props.selectedItem.price}</span><br/>
-          <span>Size: {this.props.selectedItem.size}</span>
-          <span>Brand: {this.props.selectedItem.brand}</span>
-          <div>
-            <span>
-              {this.renderLikes()}
-            </span>
-          </div>
-          {this.renderButton()}
-          <div>
-          <p>Posted {this.setPostedTime(this.props.selectedItem.created_at)}</p>
-          <p>{this.props.selectedItem.user ? this.props.selectedItem.user.location : null}</p>
-          </div>
+            {this.props.selectedItem.user ?
+              <NavLink  to={`/user/${this.props.selectedItem.user.id}`}>
+              <h2 className="hoverLinkStyle">@{this.props.selectedItem.user.username}</h2>
+              </NavLink>
+              : null}
+            <span>Description: {this.props.selectedItem.description}</span><br/>
+            <span>Price: ${this.props.selectedItem.price}</span><br/>
+            <span>Size: {this.props.selectedItem.size}</span>
+            <span>Brand: {this.props.selectedItem.brand}</span>
+              <div>
+                <span>
+                  {this.renderLikes()}
+                </span>
+              </div>
+                {this.renderButton()}
+              <div>
+                <p>Posted {this.setPostedTime(this.props.selectedItem.created_at)}</p>
+                <p>{this.props.selectedItem.user ? this.props.selectedItem.user.location : null}</p>
+              </div>
           </span>
+          {this.state.modal && !this.props.selectedItem.purchase ?
+            <PurchaseModal
+            toggleModal={this.toggleModal}
+            purchaseItem={this.purchaseItem}/>
+            : null}
         </div>
       </>
     )

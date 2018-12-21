@@ -13,9 +13,11 @@ import selectedItemDisplay from './components/selectedItemDisplay'
 class App extends Component {
 
   componentDidMount() {
+    let t = setTimeout(() => window.alert("there seems to be an issue connecting to the server. try refreshing the page.") ,5000)
     fetch(`${API_URL}/items`)
     .then(res => res.json())
     .then(res => {
+      clearTimeout(t)
       this.props.setHotItems(res.items)
     })
   }

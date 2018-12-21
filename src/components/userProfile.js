@@ -107,7 +107,7 @@ class UserProfile extends Component {
       <>
         <div className="userInfoContainer clearfix">
           <span className="userDetails">
-            <img className="userProfilePhoto" src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg} alt="profile" onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
+            <img className={"userProfilePhoto" + (!this.props.selectedUser.id ? " blurry" : "")} src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg} alt="profile" onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
           </span>
           <span className="username">@{this.props.selectedUser.username}
             {this.state.self ?

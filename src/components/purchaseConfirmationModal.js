@@ -1,29 +1,41 @@
 import React, { Component} from 'react'
 import errorImg from '../images/error.jpg'
+import { connect } from 'react-redux'
 
 
 
 const purchaseConfirmationModal = props => {
-  const { item } = props
+  const { toggleModal, purchaseItem } = props
+  const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
 
   return (
-    <div className="modalContainer">
-      <div className="modalContent">
-        <img id="selected-item"   src={`${baseurl}/user${this.props.selectedItem.user.id}item${this.props.selectedItem.id}.jpg`} alt="selected item image" onError={(e)=>{e.target.onerror = null; e.target.src=errorImg}/>
-        <div>@{item.user.username}</div>
-        <p>Size: {item.size}</p>
-        <p>Brand: {item.brand}</p>
-        <button
-          className="large green button"
-          onClick={props.purchaseItem}>
-          Confirm Purchase
-        </button>
-        <button
-          className="large red button"
-          onClick={props.toggleModal}>
-          Return
-        </button>
+    <div className="modalContainer" onClick={toggleModal}>
+      <div className="modalContent" onClick={e => e.stopPropagation()}>
+        <div id="selected-item-small">
+          <img  src={`${baseurl}/user${props.selectedItem.user.id}item${props.selectedItem.id}.jpg`} alt="selected item image" onError={(e)=>{e.target.onerror = null; e.target.src=errorImg}}/>
+        </div>
+        <div id="button-container">
+          <button
+            className="large green button"
+            onClick={purchaseItem}>
+            Pay ${props.selectedItem.price}
+          </button>
+          <button
+            className="large red button"
+            onClick={toggleModal}>
+            Return
+          </button>
+        </div>
       </div>
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    selectedItem: state.items.selectedItem
+
+  }
+}
+
+export default connect(mapStateToProps)(purchaseConfirmationModal)
