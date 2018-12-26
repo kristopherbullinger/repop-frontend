@@ -97,28 +97,47 @@ class UserProfile extends Component {
 
   showSelling = () => this.setState({showSelling: true})
 
+  sellerRating = () => {
+    let ratings = this.props.selectedUser.purchases.map(p => p.rating).filter(Boolean)
+    let ratingsCount = this.props.selectedUser.purchases.map(p => p.rating).filter(Boolean).length
+    return ratings.reduce( (acc, val) => acc + val) / ratingsCount
+  }
+
   showLikedItems = () => this.setState({showSelling: false})
 
   renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.props.selectedUser.id) ? <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Following</button> : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
 
   render() {
     const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
+
     return (
       <>
         <div className="userInfoContainer clearfix">
           <span className="userDetails">
-            <img className={"userProfilePhoto" + (!this.props.selectedUser.id ? " blurry" : "")} src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg} alt="profile" onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
+            <img className={"userProfilePhoto" + (!this.props.selectedUser.id ? " blurry" : "")}
+                src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg}
+                alt="profile"
+                onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
           </span>
           <span className="username">@{this.props.selectedUser.username}
+            {this.props.selectedUser.purchases && this.props.selectedUser.purchases[0] ?
+              <p>Seller Rating: {this.sellerRating()}/5</p>
+              : <p>No Reviews Yet</p>
+            }
             {this.state.self ?
               <div>
-                <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
+                <p id="editSwitch"
+                  onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
               </div>
               : null}
             {this.props.selectedUser.followers ?
               <div className="clearfix">
-                <span className="followers hoverLinkStyle" onClick={() => this.toggleShowFollows(true)}>{this.props.selectedUser.followers.length} Followers</span>
-                <span className="followers hoverLinkStyle" onClick={() => this.toggleShowFollows(false)}>{this.props.selectedUser.following.length} Following</span>
+                <span className="followers hoverLinkStyle"
+                      onClick={() => this.toggleShowFollows(true)}>{this.props.selectedUser.followers.length} Followers
+                </span>
+                <span className="followers hoverLinkStyle"
+                      onClick={() => this.toggleShowFollows(false)}>{this.props.selectedUser.following.length} Following
+                </span>
               </div>
               : null}
             {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
