@@ -5,6 +5,7 @@ import ItemCardContainer from './itemCardContainer.js'
 import NewItemForm from './newItemForm.js'
 import defaultUserImg from '../images/defaultUser.png'
 import FollowersModal from './followersModal.js'
+import ReviewsModal from './reviewsModal.js'
 
 
 
@@ -17,6 +18,7 @@ class UserProfile extends Component {
     newItem: false,
     edit: false,
     showSelling: true,
+    showReviews: false,
     //contains a switch for showing followersModal or not(switch), and a switch to determine whether followers or following appear first(default)
     showFollows: {switch: false, default: true}
   }
@@ -35,7 +37,7 @@ class UserProfile extends Component {
     if (prevProps.location.pathname !== this.props.location.pathname) {
         this.props.setSelectedUser({}) // prevent old user info from rendering upon navigating to different user page
         let self = this.props.currentUser.id == this.props.match.params.user_id
-        this.setState({self, newItem: false, edit: false, showSelling: true, showFollows: {switch: false, default: true}})
+        this.setState({self, newItem: false, edit: false, showSelling: true, showReviews: false, showFollows: {switch: false, default: true}})
         fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
         .then(res => res.json())
         .then(res => {
@@ -77,6 +79,8 @@ class UserProfile extends Component {
 
   toggleShowFollows = (bool) => this.setState({showFollows: {switch: !this.state.showFollows.switch, default: bool}}, () => console.log(this.state.showFollows))
 
+  toggleReviews = () => this.setState({showReviews: !this.state.showReviews})
+
   publishEdit = () => {
     let newbio = document.querySelector("#update-bio").value
     fetch(`${API_URL}/users/${this.props.currentUser.id}`, {
@@ -98,8 +102,8 @@ class UserProfile extends Component {
   showSelling = () => this.setState({showSelling: true})
 
   sellerRating = () => {
-    let ratings = this.props.selectedUser.purchases.map(p => p.rating).filter(Boolean)
-    let ratingsCount = this.props.selectedUser.purchases.map(p => p.rating).filter(Boolean).length
+    let ratings = this.props.selectedUser.purchased.map(p => p.rating).filter(Boolean)
+    let ratingsCount = this.props.selectedUser.purchased.map(p => p.rating).filter(Boolean).length
     return ratings.reduce( (acc, val) => acc + val) / ratingsCount
   }
 
@@ -109,7 +113,6 @@ class UserProfile extends Component {
 
   render() {
     const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
-
     return (
       <>
         <div className="userInfoContainer clearfix">
@@ -120,14 +123,13 @@ class UserProfile extends Component {
                 onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
           </span>
           <span className="username">@{this.props.selectedUser.username}
-            {this.props.selectedUser.purchases && this.props.selectedUser.purchases[0] ?
-              <p>Seller Rating: {this.sellerRating()}/5</p>
+            {this.props.selectedUser.purchased && this.props.selectedUser.purchased.find(p => p.review) ?
+              <p onClick={this.toggleReviews} className="hoverLinkStyle">Seller Rating: {this.sellerRating()}/5</p>
               : <p>No Reviews Yet</p>
             }
             {this.state.self ?
               <div>
-                <p id="editSwitch"
-                  onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
+                <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
               </div>
               : null}
             {this.props.selectedUser.followers ?
@@ -166,6 +168,10 @@ class UserProfile extends Component {
                           toggleFollow={this.toggleFollow}
                           default={this.state.showFollows.default}/>
           : null}
+
+        {this.state.showReviews ?
+          <ReviewsModal toggleModal={this.toggleReviews}/>
+        : null}
 
         {<ItemCardContainer items={this.state.showSelling ? this.state.items : this.state.likedItems}/>}
       </>)
