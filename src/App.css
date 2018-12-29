@@ -112,6 +112,18 @@ nav {
   overflow: hidden;
 }
 
+.button.small.red {
+  width: 200px;
+  height: 1.666em;
+  font-size: 0.666em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #9e0334;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .itemcard {
   position: relative;
   width: 210px;

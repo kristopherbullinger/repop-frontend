@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import PurchaseCard from './purchaseCard.js'
+import ReviewCard from './reviewCard.js'
+import ReviewForm from './reviewForm.js'
 
 const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
 
@@ -9,46 +12,24 @@ class ReviewsModal extends Component {
 
   state = {
     //switch true: show reviews of items the user has sold. switch false: show purchases the user has made. (only if user is self)
-    "switch": true
+    "switch": true,
+    selectedPurchase: null
   }
 
   renderReviews = () => {
     //"purchased" means the user is the seller
     //"purchases" means the user is the buyer
     return (this.props.selectedUser.purchased && this.props.selectedUser.purchased.find(p => p.review) ?
-      this.props.selectedUser.purchased.filter(p => p.review).map(rev => {
-        return (<div key={rev.item_id} className="purchaseCard">
-          <p>
-            <NavLink to={`/user/${this.props.selectedUser.id}/item/${rev.item_id}`}>
-              <img src={`${baseurl}user${this.props.selectedUser.id}item${rev.item_id}`} style={{width: 50}}/>
-            </NavLink>
-          </p>
-          <p>{rev.rating}/5</p>
-          <p>{rev.description}</p>
-          <p>Purchased By: <NavLink to={`/user/${rev.purchaser.id}`}>@{rev.purchaser.username}</NavLink></p>
-        </div>)
-      })
+      this.props.selectedUser.purchased.filter(p => p.review).map(rev => <ReviewCard key={rev.id} review={rev}/>)
       : <p>This user has no reviews yet!</p>
     )
   }
 
+  selectPurchase = purchase => this.setState({selectedPurchase: purchase}, () => console.log(this.state.selectedPurchase))
+
   renderPurchases = () => {
-    console.log(this.props.selectedUser)
-    //"purchased" means the user is the seller
-    //"purchases" means the user is the buyer
-    //<NavLink to={`/user/${item.user.id}/item/${item.id}`}>
     return (this.props.selectedUser.purchases ?
-      this.props.selectedUser.purchases.map(p => {
-        return (<div key={p.item_id} className="purchaseCard">
-          <p>
-            <NavLink to={`/user/${p.seller.id}/item/${p.item_id}`}>
-              <img src={`${baseurl}user${p.seller.id}item${p.item_id}`} style={{width: 50}}/>
-            </NavLink>
-          </p>
-          <p>Purchased From: <NavLink to={`/user/${p.seller.id}`}>@{p.seller.username}</NavLink></p>
-          <p>Purchased {this.setPurchasedTime(p.purchase_date)}</p>
-        </div>)
-      })
+      this.props.selectedUser.purchases.map(p => <PurchaseCard key={p.id} purchase={p} selectPurchase={this.selectPurchase}/>)
       : <p>You haven't purchased anything yet</p>)
   }
 
@@ -71,6 +52,19 @@ class ReviewsModal extends Component {
     }
   }
 
+  renderContent = () => {
+    if (this.state.selectedPurchase) {
+      return (
+        <>
+          <PurchaseCard purchase={this.state.selectedPurchase} selectPurchase={this.selectPurchase} cancel={true}/>
+          <ReviewForm rating={this.state.selectedPurchase.rating} description={this.state.selectedPurchase.description}/>
+        </>
+      )
+    } else {
+      return this.state.switch ? this.renderReviews() : this.renderPurchases()
+    }
+  }
+
   render () {
     return (
       <div className="modalContainer" onClick={this.props.toggleModal}>
@@ -81,7 +75,7 @@ class ReviewsModal extends Component {
               <p onClick={() => this.setState({"switch": false})} className={"hoverLinkStyle" + (!this.state.switch ? " selected" : "")}>Purchases</p>
             </>
             : <div>Reviews</div>}
-          {this.state.switch ? this.renderReviews() : this.renderPurchases()}
+          {this.renderContent()}
         </div>
       </div>
     )
