@@ -31,7 +31,7 @@ const reviewCard = props => {
     <div className="purchaseCard">
       <p>
         <NavLink to={`/user/${props.selectedUser.id}/item/${review.item_id}`}>
-          <img src={`${baseurl}user${props.selectedUser.id}item${review.item_id}`} style={{width: 50}}/>
+          <img src={`${baseurl}user${props.selectedUser.id}item${review.item_id}`} style={{width: 125}}/>
         </NavLink>
       </p>
       <p>{review.rating}/5</p>

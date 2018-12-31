@@ -125,7 +125,10 @@ class UserProfile extends Component {
           <span className="username">@{this.props.selectedUser.username}
             {this.props.selectedUser.purchased && this.props.selectedUser.purchased.find(p => p.review) ?
               <p onClick={this.toggleReviews} className="hoverLinkStyle">Seller Rating: {this.sellerRating()}/5</p>
-              : <p>No Reviews Yet</p>
+              : <p onClick={this.state.self ? this.toggleReviews : null}
+                   className={this.state.self ? "hoverLinkStyle" : ""}>
+                   No Reviews Yet
+                </p>
             }
             {this.state.self ?
               <div>

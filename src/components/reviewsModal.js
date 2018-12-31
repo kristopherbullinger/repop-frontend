@@ -21,7 +21,7 @@ class ReviewsModal extends Component {
     //"purchases" means the user is the buyer
     return (this.props.selectedUser.purchased && this.props.selectedUser.purchased.find(p => p.review) ?
       this.props.selectedUser.purchased.filter(p => p.review).map(rev => <ReviewCard key={rev.id} review={rev}/>)
-      : <p>This user has no reviews yet!</p>
+      : <p>{this.props.selectedUser.id === this.props.currentUser.id ? "You have" : "This user has"} no reviews yet!</p>
     )
   }
 
@@ -57,7 +57,7 @@ class ReviewsModal extends Component {
       return (
         <>
           <PurchaseCard purchase={this.state.selectedPurchase} selectPurchase={this.selectPurchase} cancel={true}/>
-          <ReviewForm rating={this.state.selectedPurchase.rating} description={this.state.selectedPurchase.description}/>
+          <ReviewForm purchase={this.state.selectedPurchase} exit={() => this.selectPurchase(null)}/>
         </>
       )
     } else {

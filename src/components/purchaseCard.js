@@ -28,13 +28,13 @@ const purchaseCard = props => {
 
   return (
     <div className="purchaseCard">
-      <p>
+      <p style={{display: "inline-block"}}>
         <NavLink to={`/user/${purchase.seller.id}/item/${purchase.item_id}`}>
-          <img src={`${baseurl}user${purchase.seller.id}item${purchase.item_id}`} style={{width: 50}}/>
+          <img src={`${baseurl}user${purchase.seller.id}item${purchase.item_id}`} style={{width: 125}}/>
         </NavLink>
       </p>
-      <p>Purchased From: <NavLink to={`/user/${purchase.seller.id}`}>@{purchase.seller.username}</NavLink></p>
-      <p>Purchased {setPurchasedTime(purchase.purchase_date)}
+      <p style={{display: "inline-block"}}>
+        <p>Purchased From: <NavLink to={`/user/${purchase.seller.id}`}>@{purchase.seller.username}</NavLink> {setPurchasedTime(purchase.purchase_date)}</p>
         {cancel ?
           <button className="small red button" onClick={() => selectPurchase(null)}>Cancel</button>
           : <button className="small green button" onClick={() => selectPurchase(purchase)}>{purchase.review ? "See Your Review" : "Add a Review"}</button>}
