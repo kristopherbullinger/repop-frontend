@@ -230,19 +230,20 @@ a:hover {
   margin-bottom: 15px;
 }
 
+#bio {
+  margin-top: 1em;
+}
+
 
 #editSwitch {
   font-size: 0.333em;
   color: #888888;
   display: inline-block;
-}
-
-#editSwitch:hover {
-  text-decoration: underline;
+  margin-left: 1em;
 }
 
 .username {
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: bold;
   width: 100%;
   margin-top: 20px;
@@ -257,6 +258,8 @@ a:hover {
   font-weight: normal;
   max-width: 75%;
   max-height: 80px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .followers {
@@ -382,3 +385,34 @@ a:hover {
 .selected {
   font-weight: bold;
 }
+
+.stars-outline {
+  display: inline-block;
+  position: relative;
+  color: #cc1839;
+  font-size: 25px;
+  letter-spacing: -4px;
+}
+
+.stars-full {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+}
+
+.review-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.purchaseCard p {
+  font-size: 0.8em;
+  text-overflow: ellipsis;
+}
+/* 
+.purchaseCard {
+  height: 125px;
+} */

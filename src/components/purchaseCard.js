@@ -8,6 +8,7 @@ const purchaseCard = props => {
   const { purchase, selectPurchase, cancel } = props
 
   const setPurchasedTime = date => {
+    console.log(purchase)
     let postedDate = new Date(date)
     let timeNow = new Date()
     let diff = timeNow - postedDate
@@ -26,6 +27,18 @@ const purchaseCard = props => {
     }
   }
 
+  const displayRating = () => {
+    if (purchase.review) {
+      let width = `${purchase.rating / 5 * 100}%`
+      return (<div className="stars-outline">
+      &#9734; &#9734; &#9734; &#9734; &#9734;
+        <div className="stars-full" style={{width: width}}>
+        &#9733; &#9733; &#9733; &#9733; &#9733;
+        </div>
+      </div>)
+    } else return (<p>You have not reviewed this item</p>)
+  }
+
   return (
     <div className="purchaseCard">
       <p style={{display: "inline-block"}}>
@@ -34,10 +47,12 @@ const purchaseCard = props => {
         </NavLink>
       </p>
       <p style={{display: "inline-block"}}>
+        <p className="review-description">{displayRating()}</p>
+        {purchase.description ? (<p>{purchase.description}</p>) : null}
         <p>Purchased From: <NavLink to={`/user/${purchase.seller.id}`}>@{purchase.seller.username}</NavLink> {setPurchasedTime(purchase.purchase_date)}</p>
         {cancel ?
           <button className="small red button" onClick={() => selectPurchase(null)}>Cancel</button>
-          : <button className="small green button" onClick={() => selectPurchase(purchase)}>{purchase.review ? "See Your Review" : "Add a Review"}</button>}
+          : <button className="small green button" onClick={() => selectPurchase(purchase)}>{purchase.review ? "Edit this review" : "Add a Review"}</button>}
       </p>
     </div>
   )

@@ -17,14 +17,11 @@ class NewItemForm extends Component {
     this.setState({[event.target.name]: event.target.value})
   }
 
-  // handleFileChange = event => {
-  //   this.setState({image: event.target.files[0]})
-  // }
-
   handleSubmit = (event) => {
     event.preventDefault()
     if (this.state.image === "") {return window.alert("You must include an image!")}
     let { description, size, price, brand } = this.state
+    //attempt to connect to DB to post new item info
     fetch(`${API_URL}/items`, {
       method: "POST",
       headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
@@ -34,6 +31,7 @@ class NewItemForm extends Component {
       if (res.status === 200) {return res.json()}
       else {res.errors.forEach(error => window.alert(error))}})
     .then(response => {
+      //if successful, attempt to post image to backend
       let { item } = response
       let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
       let uploadpreset = "oyejxmyi"
@@ -49,6 +47,7 @@ class NewItemForm extends Component {
         if (xhr.status === 200) {
           window.alert("All good")
         } else {
+          //if error posting image, delete item in backend
           window.alert("there was some kind of error. try again")
           fetch(`${API_URL}/items`, {
             method: "DELETE",

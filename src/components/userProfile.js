@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { API_URL } from '../APIEndpoint.js'
+import { API_URL, baseurl } from '../APIEndpoint.js'
 import ItemCardContainer from './itemCardContainer.js'
 import NewItemForm from './newItemForm.js'
 import defaultUserImg from '../images/defaultUser.png'
@@ -77,7 +77,7 @@ class UserProfile extends Component {
 
   toggleEdit = () => this.setState({edit: !this.state.edit})
 
-  toggleShowFollows = (bool) => this.setState({showFollows: {switch: !this.state.showFollows.switch, default: bool}}, () => console.log(this.state.showFollows))
+  toggleShowFollows = (bool) => this.setState({showFollows: {switch: !this.state.showFollows.switch, default: bool}})
 
   toggleReviews = () => this.setState({showReviews: !this.state.showReviews})
 
@@ -104,7 +104,13 @@ class UserProfile extends Component {
   sellerRating = () => {
     let ratings = this.props.selectedUser.purchased.map(p => p.rating).filter(Boolean)
     let ratingsCount = this.props.selectedUser.purchased.map(p => p.rating).filter(Boolean).length
-    return ratings.reduce( (acc, val) => acc + val) / ratingsCount
+    let width = `${ratings.reduce( (acc, val) => acc + val) / ratingsCount / 5 * 100}%`
+    return (<div className="stars-outline">
+    &#9734; &#9734; &#9734; &#9734; &#9734;
+      <div className="stars-full" style={{width: width}}>
+      &#9733; &#9733; &#9733; &#9733; &#9733;
+      </div>
+    </div>)
   }
 
   showLikedItems = () => this.setState({showSelling: false})
@@ -112,29 +118,28 @@ class UserProfile extends Component {
   renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.props.selectedUser.id) ? <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Following</button> : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
 
   render() {
-    const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
     return (
       <>
         <div className="userInfoContainer clearfix">
           <span className="userDetails">
             <img className={"userProfilePhoto" + (!this.props.selectedUser.id ? " blurry" : "")}
                 src={this.props.selectedUser.id ? `${baseurl}user${this.props.selectedUser.id}` : defaultUserImg}
-                alt="profile"
+                alt="profile photo"
                 onError={(e)=>{e.target.onerror = null; e.target.src=defaultUserImg}}/>
           </span>
-          <span className="username">@{this.props.selectedUser.username}
+          <span className="username">
+            <div>
+              @{this.props.selectedUser.username}
+              {this.state.self ? <p id="editSwitch" className="hoverLinkStyle" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
+                : null}
+            </div>
             {this.props.selectedUser.purchased && this.props.selectedUser.purchased.find(p => p.review) ?
-              <p onClick={this.toggleReviews} className="hoverLinkStyle">Seller Rating: {this.sellerRating()}/5</p>
+              <p onClick={this.toggleReviews} className="hoverLinkStyle">{this.sellerRating()}</p>
               : <p onClick={this.state.self ? this.toggleReviews : null}
-                   className={this.state.self ? "hoverLinkStyle" : ""}>
+                   className={this.state.self ? "hoverLinkStyle" : ""} style={{display: "inline-block"}}>
                    No Reviews Yet
                 </p>
             }
-            {this.state.self ?
-              <div>
-                <p id="editSwitch" onClick={this.toggleEdit}>{this.state.edit ? "Cancel Edit" : "Edit Profile"}</p>
-              </div>
-              : null}
             {this.props.selectedUser.followers ?
               <div className="clearfix">
                 <span className="followers hoverLinkStyle"
@@ -147,8 +152,13 @@ class UserProfile extends Component {
               : null}
             {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
             {this.state.edit ?
-              <div><textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio} id="update-bio"/><button onClick={this.publishEdit}>Publish</button></div>
-              : <p>{this.props.selectedUser.bio}</p>}
+              <div>
+                <textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio} id="update-bio"/>
+                <br/>
+                <button onClick={this.publishEdit} className="small green button">Publish</button>
+                <button onClick={this.toggleEdit} className="small red button">Cancel</button>
+              </div>
+              : <p id="bio">{this.props.selectedUser.bio}</p>}
           </span>
         </div>
 

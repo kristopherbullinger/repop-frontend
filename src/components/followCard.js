@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { baseurl } from '../APIEndpoint.js'
+import defaultUser from '../images/defaultUser.png'
 
 
 const FollowCard = (props) => {
@@ -20,7 +22,7 @@ const FollowCard = (props) => {
   return (
     <div className="follow-card">
       <div>
-        <img src={``}/>
+        <img src={props.selectedUser.id ? `${baseurl}user${props.selectedUser.id}` : defaultUser} alt="follower profile photo"/>
       </div>
       <div>
         <NavLink to={`/user/${user.id}`}>@{user.username}</NavLink>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import errorImg from '../images/error.jpg'
+import { baseurl } from '../APIEndpoint.js'
 
 
 const itemCard = ({item}) => {
-  const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
   return (
     <NavLink to={`/user/${item.user.id}/item/${item.id}`}>
       <div className={"itemcard" + (!!item.purchase ? " sold" : "")}>

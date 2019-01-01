@@ -8,15 +8,10 @@ class FollowersModal extends Component {
   state = {
     switch: this.props.default
   }
-  componentDidMount() {
-    console.log("mounting modal")
-  }
 
   renderFollowCards = users => users[0] ? users.map(user => <FollowCard user={user} toggleFollow={this.props.toggleFollow} key={user.id} followers={this.state.switch}/>) : <p>No users here yet...</p>
 
   handleClick = bool => this.setState({switch: bool})
-
-  //userList={this.state.switch ? this.props.currentUser.followers : this.props.currentUser.following}
 
   render() {
     return (
