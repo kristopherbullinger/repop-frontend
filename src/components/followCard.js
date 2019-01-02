@@ -21,13 +21,15 @@ const FollowCard = (props) => {
 
   return (
     <div className="follow-card">
-      <div>
-        <img src={props.selectedUser.id ? `${baseurl}user${props.selectedUser.id}` : defaultUser} alt="follower profile photo"/>
+      <div className="follow-image">
+        <img src={props.selectedUser.id ? `${baseurl}user${user.id}` : defaultUser} alt="follower profile photo"/>
       </div>
-      <div>
-        <NavLink to={`/user/${user.id}`}>@{user.username}</NavLink>
-      </div>
-      {renderButton()}
+      <p className="follow-details">
+        <p>
+          <NavLink to={`/user/${user.id}`}>@{user.username}</NavLink>
+          {renderButton()}
+        </p>
+      </p>
     </div>
   )
 }

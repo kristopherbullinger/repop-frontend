@@ -29,17 +29,41 @@ class reviewForm extends Component {
 
   handleChange = e => this.setState({[e.target.name]: e.target.value})
 
+  handleRatingChange = rating => this.setState({rating}, ()=> console.log(this.state.rating))
+
+  displayRating = () => {
+    if (this.state.rating) {
+      let width = `${this.state.rating / 5 * 100}%`
+      return (<div className="stars-outline select-rating">
+        <span onClick={() => this.handleRatingChange(1)}>&#9734;</span>
+        <span onClick={() => this.handleRatingChange(2)}>&#9734;</span>
+        <span onClick={() => this.handleRatingChange(3)}>&#9734;</span>
+        <span onClick={() => this.handleRatingChange(4)}>&#9734;</span>
+        <span onClick={() => this.handleRatingChange(5)}>&#9734;</span>
+        <div className="stars-full select-rating" style={{width: width}}>
+          <span onClick={() => this.handleRatingChange(1)}>&#9733;</span>
+          <span onClick={() => this.handleRatingChange(2)}>&#9733;</span>
+          <span onClick={() => this.handleRatingChange(3)}>&#9733;</span>
+          <span onClick={() => this.handleRatingChange(4)}>&#9733;</span>
+          <span onClick={() => this.handleRatingChange(5)}>&#9733;</span>
+        </div>
+      </div>)
+    } else return (<p>You have not reviewed this item</p>)
+  }
+
   render() {
+    //<input type="number" name="rating" min="1" max="5" onChange={this.handleChange} value={this.state.rating}/>
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} id="review-form">
         <label>Rating</label>
-        <input type="number" name="rating" min="1" max="5" onChange={this.handleChange} value={this.state.rating}/>
+        <br/>
+        {this.displayRating()}
         <br/>
         <label>Add a Message</label>
         <br/>
-        <textarea name="description" onChange={this.handleChange} value={this.state.description}/>
+        <textarea name="description" onChange={this.handleChange} value={this.state.description} cols="100" id="review-description-edit"/>
         <br/>
-        <button type="submit">Submit</button>
+        <button type="submit" className="small green button">Submit</button>
       </form>
     )
   }

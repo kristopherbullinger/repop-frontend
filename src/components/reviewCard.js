@@ -27,16 +27,38 @@ const reviewCard = props => {
     }
   }
 
+  const displayRating = () => {
+    if (review) {
+      let width = `${review.rating / 5 * 100}%`
+      return (<div className="stars-outline">
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <div className="stars-full" style={{width: width}}>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+        </div>
+      </div>)
+    } else return (<p>You have not reviewed this item</p>)
+  }
+
   return (
     <div className="purchaseCard">
-      <p>
+      <p className="purchasecard-img">
         <NavLink to={`/user/${props.selectedUser.id}/item/${review.item_id}`}>
-          <img src={`${baseurl}user${props.selectedUser.id}item${review.item_id}`} style={{width: 125}}/>
+          <img src={`${baseurl}user${props.selectedUser.id}item${review.item_id}`} style={{width: "100%"}}/>
         </NavLink>
       </p>
-      <p>{review.rating}/5</p>
-      <p>{review.description}</p>
-      <p>Purchased By: <NavLink to={`/user/${review.purchaser.id}`}>@{review.purchaser.username}</NavLink></p>
+      <p className="purchase-details">
+        <p>{displayRating()}</p>
+        <p className="review-description">{review.description}</p>
+        <p>Purchased By: <NavLink to={`/user/${review.purchaser.id}`}>@{review.purchaser.username}</NavLink></p>
+      </p>
     </div>
   )
 }

@@ -24,12 +24,18 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
+      this.props.setSelectedUser({}) // prevent old user info from rendering upon navigating to different user page
       fetch(`${API_URL}/users/${this.props.match.params.user_id}`)
-      .then(res => res.json())
       .then(res => {
-        let { user, items, likedItems } = res
-        this.props.setSelectedUser(user)
-        this.setState({items, likedItems})
+        if (res.status === 404) {this.props.history.replace("/")}
+        return res.json()
+        })
+      .then(res => {
+        if (res.user) {
+          let { user, items, likedItems } = res
+          this.props.setSelectedUser(user)
+          this.setState({items, likedItems})
+        }
       })
   }
 

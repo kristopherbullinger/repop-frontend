@@ -31,9 +31,17 @@ const purchaseCard = props => {
     if (purchase.review) {
       let width = `${purchase.rating / 5 * 100}%`
       return (<div className="stars-outline">
-      &#9734; &#9734; &#9734; &#9734; &#9734;
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
+        <span>&#9734;</span>
         <div className="stars-full" style={{width: width}}>
-        &#9733; &#9733; &#9733; &#9733; &#9733;
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
+          <span>&#9733;</span>
         </div>
       </div>)
     } else return (<p>You have not reviewed this item</p>)
@@ -41,14 +49,14 @@ const purchaseCard = props => {
 
   return (
     <div className="purchaseCard">
-      <p style={{display: "inline-block"}}>
+      <p className="purchasecard-img">
         <NavLink to={`/user/${purchase.seller.id}/item/${purchase.item_id}`}>
-          <img src={`${baseurl}user${purchase.seller.id}item${purchase.item_id}`} style={{width: 125}}/>
+          <img src={`${baseurl}user${purchase.seller.id}item${purchase.item_id}`} style={{width: "100%"}}/>
         </NavLink>
       </p>
-      <p style={{display: "inline-block"}}>
-        <p className="review-description">{displayRating()}</p>
-        {purchase.description ? (<p>{purchase.description}</p>) : null}
+      <p className="purchase-details">
+        <p>{displayRating()}</p>
+        {purchase.description ? (<p className="review-description">{purchase.description}</p>) : null}
         <p>Purchased From: <NavLink to={`/user/${purchase.seller.id}`}>@{purchase.seller.username}</NavLink> {setPurchasedTime(purchase.purchase_date)}</p>
         {cancel ?
           <button className="small red button" onClick={() => selectPurchase(null)}>Cancel</button>
