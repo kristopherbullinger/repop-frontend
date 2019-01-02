@@ -31,35 +31,34 @@ class SignupForm extends Component {
       if (resp.errors) {return resp.errors.forEach(e => window.alert(e))}
       let jwt = resp.jwt
       let user = resp.user
-      let action = {type: "SET_CURRENT_USER", payload: {user, jwt}}
+      // this.props.logIn(user, jwt)
+      // this.setState({redirect: true})
 
       // //host image
-      // let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
-      // let uploadpreset = "oyejxmyi"
-      // let formdata = new FormData()
-      // formdata.append('file', this.state.image)
-      // formdata.append("upload_preset", uploadpreset)
-      // formdata.append("public_id", `user${user.id}`)
-      // let xhr = new XMLHttpRequest()
-      // xhr.open("POST", uploadurl, true)
-      // xhr.send(formdata)
-      // window.alert("Sending to the cloud....")
-      //
-      // //if error uploading, cancel user creation and inform user. if successful, create session
-      // xhr.onload = () => {
-      //   if (xhr.status === 200) {
-      //     window.alert("All good")
-      //     this.props.logIn(action)
-      //     this.setState({redirect: true})
-      //   } else {
-      //     window.alert("there was some kind of error. try again")
-      //     fetch(`${API_URL}/users`, {
-      //       method: "DELETE",
-      //       headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
-      //       body: JSON.stringify({id: user.id})
-      //     })
-      //   }
-      // }
+      let uploadurl = "https://api.cloudinary.com/v1_1/repop/image/upload"
+      let uploadpreset = "oyejxmyi"
+      let formdata = new FormData()
+      formdata.append('file', this.state.image)
+      formdata.append("upload_preset", uploadpreset)
+      formdata.append("public_id", `user${user.id}`)
+      let xhr = new XMLHttpRequest()
+      xhr.open("POST", uploadurl, true)
+      xhr.send(formdata)
+
+      //if error uploading, cancel user creation and inform user. if successful, create session
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          this.props.logIn(user, jwt)
+          this.setState({redirect: true})
+        } else {
+          window.alert("there was some kind of error. try again")
+          fetch(`${API_URL}/users`, {
+            method: "DELETE",
+            headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
+            body: JSON.stringify({id: user.id})
+          })
+        }
+      }
     })
   }
 
@@ -116,7 +115,7 @@ class SignupForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logIn: action => dispatch(action)
+    logIn: (user, jwt) => dispatch({type: "SET_CURRENT_USER", payload: {user, jwt}})
   }
 }
 

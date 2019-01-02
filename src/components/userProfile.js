@@ -55,7 +55,6 @@ class UserProfile extends Component {
   }
 
   toggleFollow = (id) => {
-    console.log(this.props.currentUser)
     fetch(`${API_URL}/relationships/toggle`, {
       method: "POST",
       headers: {"Content-Type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},
@@ -80,6 +79,8 @@ class UserProfile extends Component {
   }
 
   toggleNewItem = () => this.setState({newItem: !this.state.newItem})
+
+  addNewItem = item => this.setState({items: [...this.state.items, item]})
 
   toggleEdit = () => this.setState({edit: !this.state.edit})
 
@@ -159,7 +160,7 @@ class UserProfile extends Component {
             {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
             {this.state.edit ?
               <div>
-                <textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio} id="update-bio"/>
+                <textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio || "Post a bio..."} id="update-bio"/>
                 <br/>
                 <button onClick={this.publishEdit} className="small green button">Publish</button>
                 <button onClick={this.toggleEdit} className="small red button">Cancel</button>

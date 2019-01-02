@@ -8,7 +8,6 @@ const purchaseCard = props => {
   const { purchase, selectPurchase, cancel } = props
 
   const setPurchasedTime = date => {
-    console.log(purchase)
     let postedDate = new Date(date)
     let timeNow = new Date()
     let diff = timeNow - postedDate

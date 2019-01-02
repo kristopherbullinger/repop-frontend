@@ -296,6 +296,7 @@ a:hover {
 #likes {
   margin-left: 760px;
   width: 8%;
+  white-space: nowrap;
 }
 
 .newItemToggle {
@@ -304,7 +305,7 @@ a:hover {
 
 .newItemForm {
   margin-left: 10%;
-  width: 60%;
+  width: 100%;
 }
 
 .newItemForm li {
@@ -320,6 +321,11 @@ a:hover {
 .newItemForm label {
   margin-bottom: 5px;
   margin-right: 5px;
+}
+
+.newItemForm textarea {
+  width: 100%;
+  min-height: 100px;
 }
 
 .showItemToggle {
