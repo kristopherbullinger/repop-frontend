@@ -21,8 +21,11 @@ class NewItemForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     if (this.state.image === "") {return window.alert("You must include an image!")}
-    let { description, size, price, brand } = this.state
-    //attempt to connect to DB to post new item info
+    if (this.state.price < 0) {return window.alert("Price cannot be negative")}
+    let price = parseFloat(this.state.price).toFixed(2)
+    if (parseFloat(price.split(".")[0]) == parseFloat(price)) price = price.split(".")[0]
+    let { description, size, brand } = this.state
+    // attempt to connect to DB to post new item info
     fetch(`${API_URL}/items`, {
       method: "POST",
       headers: {"Content-type": "application/json", "Authorization": `Bearer ${this.props.jwt}`},

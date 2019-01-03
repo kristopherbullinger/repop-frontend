@@ -74,7 +74,7 @@ class ReviewsModal extends Component {
               <p onClick={() => this.setState({"switch": true})} className={"hoverLinkStyle" + (this.state.switch ? " selected" : "")}>Reviews</p>
               <p onClick={() => this.setState({"switch": false})} className={"hoverLinkStyle" + (!this.state.switch ? " selected" : "")}>Purchases</p>
             </>
-            : <p style={{marginLeft: "25%"}}>Reviews</p>}
+            : <p style={{marginLeft: "25%"}} className="selected">Reviews</p>}
           {this.renderContent()}
         </div>
       </div>
