@@ -66,15 +66,14 @@ class UserProfile extends Component {
     })
     .then(res => {
       let { currentUser, followedUser } = res
-
        // always update current user to reflect new relationship
       this.props.updateCurrentUser(currentUser)
-
       //if i am the selected user, update the selected user with the current user to reflect the changes in both places.
       if (this.props.currentUser.id === this.props.selectedUser.id) this.props.setSelectedUser(currentUser)
 
       //if i have liked the selected user, update the selected user
       if (followedUser.id === this.props.selectedUser.id) this.props.setSelectedUser(followedUser)
+      console.log("after following, ", this.props.currentUser)
     })
   }
 
@@ -122,9 +121,12 @@ class UserProfile extends Component {
 
   showLikedItems = () => this.setState({showSelling: false})
 
-  renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.props.selectedUser.id) ? <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Following</button> : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
+renderFollowButton = () => this.props.currentUser.following.find(f => f.id == this.props.selectedUser.id) ?
+    <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)} style={{backgroundColor: "#9e7cb7"}}>Following</button>
+  : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
 
   render() {
+    console.log("during render, ", this.props.currentUser)
     return (
       <>
         <div className="userInfoContainer clearfix">
@@ -157,7 +159,9 @@ class UserProfile extends Component {
                 </span>
               </div>
               : null}
-            {this.props.currentUser.id && !this.state.self ? this.renderFollowButton() : null}
+            {this.props.currentUser.id && this.props.selectedUser.id && !this.state.self ?
+              this.renderFollowButton()
+              : null}
             {this.state.edit ?
               <div>
                 <textarea rows="6" columns="500" defaultValue={this.props.selectedUser.bio || "Post a bio..."} id="update-bio"/>
@@ -208,7 +212,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleFollow: (id, username) => dispatch({type: "TOGGLE_FOLLOW", payload: id}),
+    toggleFollow: id => dispatch({type: "TOGGLE_FOLLOW", payload: id}),
     updateCurrentUser: user => dispatch({type: "UPDATE_CURRENT_USER", payload: user}),
     setSelectedUser: user => dispatch({type: "SET_SELECTED_USER", payload: user})
   }
