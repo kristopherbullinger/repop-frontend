@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { API_URL } from '../APIEndpoint.js'
+import { API_URL, baseurl } from '../APIEndpoint.js'
 import defaultItem from '../images/defaultItem.jpg'
 import PurchaseModal from './purchaseConfirmationModal.js'
 
@@ -53,11 +53,11 @@ class selectedItemDisplay extends Component {
     })
   }
 
-  deleteItem = () => {
-    return null
-    //send delete request to item endpoint
-    //delete image from cloudinary??
-  }
+  // deleteItem = () => {
+  //   return null
+  //   //send delete request to item endpoint
+  //   //delete image from cloudinary??
+  // }
 
   purchaseItem = () => {
     if (!this.props.selectedItem.purchase) {
@@ -97,7 +97,7 @@ class selectedItemDisplay extends Component {
   }
 
   render() {
-    const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
+    if (this.props.selectedItem.description) console.log(this.props.selectedItem.description.split("\n"))
     return (
       <>
         <div className="displayItem">
@@ -116,9 +116,15 @@ class selectedItemDisplay extends Component {
               <h2 className="hoverLinkStyle">@{this.props.selectedItem.user.username}</h2>
               </NavLink>
               : null}
-            <span>Description: {this.props.selectedItem.description}</span><br/>
+            <span>{this.props.selectedItem.description ?
+              this.props.selectedItem.description.split(/\n+/).map( (p, i) => (<>
+                                                                          <p>{p}</p>
+                                                                          <br/>
+                                                                        </>))
+              : ""}
+            </span>
             <span>Price: ${this.props.selectedItem.price}</span><br/>
-            <span>Size: {this.props.selectedItem.size}</span>
+            <span>Size: {this.props.selectedItem.size}</span><br/>
             <span>Brand: {this.props.selectedItem.brand}</span>
               <div>
                 <span>

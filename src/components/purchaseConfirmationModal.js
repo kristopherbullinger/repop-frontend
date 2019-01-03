@@ -1,12 +1,13 @@
 import React, { Component} from 'react'
 import errorImg from '../images/error.jpg'
 import { connect } from 'react-redux'
+import { baseurl } from '../APIEndpoint.js'
 
 
 
 const purchaseConfirmationModal = props => {
   const { toggleModal, purchaseItem } = props
-  const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
+  // const baseurl = "https://res.cloudinary.com/repop/image/upload/v1545005116/"
 
   return (
     <div className="modalContainer" onClick={toggleModal}>
