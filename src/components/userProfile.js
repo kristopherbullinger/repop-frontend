@@ -126,7 +126,6 @@ renderFollowButton = () => this.props.currentUser.following.find(f => f.id == th
   : <button className="button small green" onClick={() => this.toggleFollow(this.props.selectedUser.id)}>Follow</button>
 
   render() {
-    console.log("during render, ", this.props.currentUser)
     return (
       <>
         <div className="userInfoContainer clearfix">

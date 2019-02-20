@@ -1,0 +1,486 @@
+.App {
+  text-align: center;
+}
+
+#root {
+  font-family: 'Roboto Mono', monospace;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 25px;
+}
+
+.logo {
+  color: #cc1839;
+}
+
+#loading {
+  width: 20%;
+  height: auto;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 150px;
+  opacity: 0.25;
+}
+
+nav {
+  margin-left: 2%;
+  position: fixed;
+  width: 98%;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 1;
+}
+
+#navbar-right {
+  margin-top: 0px;
+  margin-left: 500px;
+  float: right;
+}
+
+#navbar-right a {
+  margin: 0 8px 0;
+}
+
+#login {
+  display: flex;
+  justify-content: center;
+}
+
+#login .button {
+  margin-top: 10px;
+  margin-left: 30%;
+  width: 40%;
+}
+
+#signup div label {
+  display: inline-block;
+  width: 210px;
+}
+
+#login label {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+#login img {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+#login form {
+  margin-top: 8%;
+}
+
+#button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.button:hover {
+  box-shadow: 1px 1px 3px black;
+}
+
+.button.large.green {
+  width: 350px;
+  height: 4em;
+  font-size: 1em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #b4ddaa;
+}
+
+.button.large.red {
+  width: 350px;
+  height: 4em;
+  font-size: 1em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #9e0334;
+}
+
+.button.small.green {
+  width: 200px;
+  height: 1.666em;
+  font-size: 0.666em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #b4ddaa;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.button.small.red {
+  width: 200px;
+  height: 1.666em;
+  font-size: 0.666em;
+  letter-spacing: 3px;
+  padding: 0;
+  background-color: #9e0334;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.itemcard {
+  position: relative;
+  width: 210px;
+  font-weight: bold;
+}
+
+.itemcard.sold {
+  opacity: 0.5;
+}
+
+.itemcard .centered {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  font-size: 3em;
+  color: yellow;
+  text-shadow: 1px 1px 1px black;
+}
+
+.itemcard img {
+  width: 200px;
+  height: 200px;
+}
+
+.itemcard img:hover {
+  opacity: 0.8;
+  filter: brightness(50%);
+}
+
+.itemcard p {
+  margin-top: 2px;
+  margin-right: 12px;
+}
+
+.dropzone {
+  width: 350px;
+  height: 350px;
+  background-color: #e3e7ed;
+  justify-content: center;
+  text-align: center;
+  line-height: 350px;
+  font-size: 0.8em;
+  margin-right: 20px;
+}
+
+#selected-item {
+  width: 750px;
+  height: 750px;
+  margin-right: 20px;
+}
+
+#selected-item-small {
+  width: 100%;
+  margin-top: 0;
+}
+#selected-item-small img{
+  width: 100%;
+  margin-top: 0;
+}
+
+.blurry {
+  filter: blur(15px);
+  -webkit-filter: blur(15px);
+}
+
+.cardcontainer {
+  margin-left: 8%;
+  margin-right: 8%;
+  width: 84%;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.userInfoContainer {
+  display: flex;
+}
+
+.userInfoContainer span{
+  float: left;
+}
+
+.userProfilePhoto {
+  display: inline;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.userDetails {
+  justify-content: flex-start;
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+#bio {
+  margin-top: 1em;
+  overflow: hidden;
+}
+
+
+#editSwitch {
+  font-size: 0.333em;
+  color: #888888;
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.username {
+  font-size: 1.8em;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.username div textarea {
+  width: 500px;
+}
+
+.username p {
+  font-size: 0.5em;
+  font-weight: normal;
+  max-width: 75%;
+  max-height: 80px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.followers {
+  font-size: 0.555em;
+  font-weight: normal;
+  margin-right: 20px;
+}
+
+.itemDetails span {
+  display: block;
+  margin-left: 20px;
+}
+
+.itemDetails p {
+  margin: 0px;
+}
+
+.itemDetails h2 {
+  margin: 0px 0px 20px;
+  display: inline-block;
+}
+
+.itemContainerHeader {
+  margin-left: 8%;
+  margin-bottom: 8px;
+}
+
+.displayItem div {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#likes {
+  margin-left: 760px;
+  width: 8%;
+  white-space: nowrap;
+}
+
+.newItemToggle {
+  margin-bottom: 20px;
+}
+
+.newItemForm {
+  margin-left: 10%;
+  width: 100%;
+}
+
+.newItemForm li {
+  display: inline-block;
+  width: 350px;
+  margin-left: 2%;
+}
+
+.newItemForm input {
+  margin-bottom: 5px;
+}
+
+.newItemForm label {
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.newItemForm textarea {
+  width: 100%;
+  min-height: 100px;
+}
+
+.showItemToggle {
+  margin-left: 20px;
+}
+
+.hoverLinkStyle:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.not-allowed:hover {
+  cursor: not-allowed;
+}
+
+.modalContainer {
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  top: 0;
+  left: 0;
+}
+
+.modalContent {
+  margin-left: 20%;
+  margin-top: 70px;
+  padding-left: 8px;
+  width: 60%;
+  min-width: 200px;
+  min-height: 80%;
+  max-height: 90%;
+  background-color: rgba(256,256,256, 1.0);
+  overflow-y: scroll;
+}
+
+.modalContent > p {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.follow-card {
+  padding-left: 8px;
+  position: relative;
+}
+
+.follow-card .follow-image {
+  width: 15%;
+}
+
+.follow-card .follow-details {
+  position: relative;
+  overflow: hidden;
+  top: 30%;
+  width: 82%;
+  margin-bottom: 6%;
+  margin-left: 1%;
+  display: inline-block;
+}
+
+.follow-details p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.666em;
+}
+
+.follow-card img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.follow-card div {
+  width: 60%;
+  display: inline-block;
+}
+
+.modalContent .selected {
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.stars-outline {
+  display: inline-block;
+  position: relative;
+  color: #cc1839;
+  font-size: 25px;
+  letter-spacing: -3px;
+}
+
+.stars-outline span {
+  margin-left: 4px;
+}
+
+.select-rating span {
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.stars-full {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  letter-spacing: -3px;
+}
+
+#review-form label {
+  margin-top: 10px;
+}
+
+#review-form textarea {
+  font-size: 1em;
+}
+
+.review-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+
+#review-description-edit {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 20px;
+  min-height: 125px;
+}
+
+.purchaseCard .purchase-details {
+  font-size: 0.8em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 67%;
+  margin-left: 3%;
+  display: inline-block;
+  margin-bottom: 10%;
+}
+
+.purchaseCard .purchasecard-img {
+  display: inline-block;
+  width: 30%;
+}

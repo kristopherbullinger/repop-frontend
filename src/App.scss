@@ -1,5 +1,5 @@
 #root {
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
   margin-left: 2%;
   margin-right: 2%;
   margin-top: 25px;
@@ -22,22 +22,22 @@
 #login {
   display: flex;
   justify-content: center;
-}
-#login .button {
-  margin-top: 10px;
-  margin-left: 30%;
-  width: 40%;
-}
-#login label {
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
-#login img {
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
-#login form {
-  margin-top: 8%;
+  .button {
+    margin-top: 10px;
+    margin-left: 30%;
+    width: 40%;
+  }
+  label {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  img {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  form {
+    margin-top: 8%;
+  }
 }
 
 #button-container {
@@ -63,9 +63,9 @@
   margin-top: 0px;
   margin-left: 500px;
   float: right;
-}
-#navbar-right a {
-  margin: 0 8px 0;
+  a {
+    margin: 0 8px 0;
+  }
 }
 
 #review-description-edit {
@@ -76,11 +76,13 @@
   min-height: 125px;
 }
 
-#review-form label {
-  margin-top: 10px;
-}
-#review-form textarea {
-  font-size: 1em;
+#review-form {
+  label {
+    margin-top: 10px;
+  }
+  textarea {
+    font-size: 1em;
+  }
 }
 
 #selected-item {
@@ -92,10 +94,10 @@
 #selected-item-small {
   width: 100%;
   margin-top: 0;
-}
-#selected-item-small img {
-  width: 100%;
-  margin-top: 0;
+  img {
+    width: 100%;
+    margin-top: 0;
+  }
 }
 
 #signup div label {
@@ -106,6 +108,7 @@
 .App {
   text-align: center;
 }
+
 
 .blurry {
   filter: blur(15px);
@@ -192,31 +195,31 @@
 .follow-card {
   padding-left: 8px;
   position: relative;
-}
-.follow-card .follow-image {
-  width: 15%;
-}
-.follow-card .follow-details {
-  position: relative;
-  overflow: hidden;
-  top: 30%;
-  width: 82%;
-  margin-bottom: 6%;
-  margin-left: 1%;
-  display: inline-block;
-}
-.follow-card .follow-details p {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.666em;
-}
-.follow-card div {
-  width: 60%;
-  display: inline-block;
-}
-.follow-card img {
-  width: 100%;
-  border-radius: 50%;
+  .follow-image {
+    width: 15%;
+  }
+  .follow-details {
+    position: relative;
+    overflow: hidden;
+    top: 30%;
+    width: 82%;
+    margin-bottom: 6%;
+    margin-left: 1%;
+    display: inline-block;
+    p {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.666em;
+    }
+  }
+  div {
+    width: 60%;
+    display: inline-block;
+  }
+  img {
+    width: 100%;
+    border-radius: 50%;
+  }
 }
 
 .followers {
@@ -234,26 +237,26 @@
   position: relative;
   width: 210px;
   font-weight: bold;
-}
-.itemcard .centered {
-  position: absolute;
-  top: 25%;
-  left: 20%;
-  font-size: 3em;
-  color: yellow;
-  text-shadow: 1px 1px 1px black;
-}
-.itemcard img {
-  width: 200px;
-  height: 200px;
-}
-.itemcard img:hover {
-  opacity: 0.8;
-  filter: brightness(50%);
-}
-.itemcard p {
-  margin-top: 2px;
-  margin-right: 12px;
+  .centered {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    font-size: 3em;
+    color: yellow;
+    text-shadow: 1px 1px 1px black;
+  }
+  img {
+    width: 200px;
+    height: 200px;
+  }
+  img:hover {
+    opacity: 0.8;
+    filter: brightness(50%);
+  }
+  p {
+    margin-top: 2px;
+    margin-right: 12px;
+  }
 }
 
 .itemcard.sold {
@@ -265,16 +268,18 @@
   margin-bottom: 8px;
 }
 
-.itemDetails h2 {
-  margin: 0px 0px 20px;
-  display: inline-block;
-}
-.itemDetails p {
-  margin: 0px;
-}
-.itemDetails span {
+.itemDetails {
+  h2 {
+    margin: 0px 0px 20px;
+    display: inline-block;
+  }
+  p {
+    margin: 0px;
+  }
+  span {
   display: block;
   margin-left: 20px;
+  }
 }
 
 .logo {
@@ -286,7 +291,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0,0,0,0.7);
   top: 0;
   left: 0;
 }
@@ -299,39 +304,39 @@
   min-width: 200px;
   min-height: 80%;
   max-height: 90%;
-  background-color: white;
+  background-color: rgba(256,256,256, 1.0);
   overflow-y: scroll;
-}
-.modalContent .selected {
-  font-weight: bold;
-  border-bottom: 1px solid black;
-}
-.modalContent > p {
-  display: inline-block;
-  width: 50%;
-  text-align: center;
-  padding-bottom: 5px;
+  .selected {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+  }
+  > p {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    padding-bottom: 5px;
+  }
 }
 
 .newItemForm {
   margin-left: 10%;
   width: 100%;
-}
-.newItemForm input {
-  margin-bottom: 5px;
-}
-.newItemForm label {
-  margin-bottom: 5px;
-  margin-right: 5px;
-}
-.newItemForm li {
-  display: inline-block;
-  width: 350px;
-  margin-left: 2%;
-}
-.newItemForm textarea {
-  width: 100%;
-  min-height: 100px;
+  input {
+    margin-bottom: 5px;
+  }
+  label {
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+  li {
+    display: inline-block;
+    width: 350px;
+    margin-left: 2%;
+  }
+  textarea {
+    width: 100%;
+    min-height: 100px;
+  }
 }
 
 .newItemToggle {
@@ -342,19 +347,21 @@
   cursor: not-allowed;
 }
 
-.purchaseCard .purchase-details {
-  font-size: 0.8em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 67%;
-  margin-left: 3%;
-  display: inline-block;
-  margin-bottom: 10%;
-}
-.purchaseCard .purchasecard-img {
-  display: inline-block;
-  width: 30%;
+.purchaseCard {
+  .purchase-details {
+    font-size: 0.8em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 67%;
+    margin-left: 3%;
+    display: inline-block;
+    margin-bottom: 10%;
+  }
+  .purchasecard-img {
+    display: inline-block;
+    width: 30%;
+  }
 }
 
 .review-description {
@@ -392,9 +399,9 @@
   color: #cc1839;
   font-size: 25px;
   letter-spacing: -3px;
-}
-.stars-outline span {
-  margin-left: 4px;
+  span {
+    margin-left: 4px;
+  }
 }
 
 .userDetails {
@@ -406,9 +413,9 @@
 
 .userInfoContainer {
   display: flex;
-}
-.userInfoContainer span {
-  float: left;
+  span {
+    float: left;
+  }
 }
 
 .username {
@@ -416,17 +423,17 @@
   font-weight: bold;
   width: 100%;
   margin-top: 20px;
-}
-.username div textarea {
-  width: 500px;
-}
-.username p {
-  font-size: 0.5em;
-  font-weight: normal;
-  max-width: 75%;
-  max-height: 80px;
-  margin-top: 0;
-  margin-bottom: 0;
+  div textarea {
+    width: 500px;
+  }
+  p {
+    font-size: 0.5em;
+    font-weight: normal;
+    max-width: 75%;
+    max-height: 80px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .userProfilePhoto {
@@ -456,5 +463,3 @@ nav {
   background: white;
   z-index: 1;
 }
-
-/*# sourceMappingURL=App.css.map */
